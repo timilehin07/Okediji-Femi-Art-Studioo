@@ -61,7 +61,9 @@ export default function Portfolio() {
           {works.map((work, index) => (
             <div
               key={work._id}
-              ref={(el) => (itemRefs.current[index] = el)}
+              ref={(el: HTMLDivElement | null) => {
+                itemRefs.current[index] = el
+              }}
               className={`group cursor-pointer relative transition-smooth ${
                 visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
               }`}
