@@ -1,8 +1,7 @@
 {
+  "version": 3,
   "builds": [
     { "src": "package.json", "use": "@vercel/next" }
   ],
-  "routes": [
-    { "src": "/studio/(.*)", "dest": "/studio/index.html" }
-  ]
+  "ignoreBuildStep": "echo 'Skipping Studio folder build'"
 }
