@@ -8,6 +8,5 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/" }
-  ],
-  "ignoreBuildStep": "echo 'Skipping Studio folder build'"
+  ]
 }
