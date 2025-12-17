@@ -15,43 +15,43 @@ export default function ContactPage() {
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  setFormData({
+    ...formData,
+    [e.target.id]: e.target.value,
+  })
+}
+
+const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault()
+  setLoading(true)
+  setSuccess("")
+  setError("")
+
+  const templateParams = {
+    from_name: formData.name,
+    from_email: formData.email,
+    message: formData.message,
   }
 
-  const sendEmail = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setSuccess("")
-    setError("")
-
-    const templateParams = {
-      from_name: formData.name,
-      from_email: formData.email,
-      message: formData.message,
-    }
-
-    emailjs
-      .send(
-        "service_94yzq3z",        // your service ID
-        "template_44idizi",       // your template ID
-        templateParams,
-        "K5KXr4vG9x06O5IB9"       // your public key
-      )
-      .then(
-        () => {
-          setSuccess("Message sent successfully! 🎉")
-          setFormData({ name: "", email: "", message: "" })
-        },
-        () => {
-          setError("Something went wrong. Try again.")
-        }
-      )
-      .finally(() => setLoading(false))
-  }
+  emailjs
+    .send(
+      "service_94yzq3z",
+      "template_44idizi",
+      templateParams,
+      "K5KXr4vG9x06O5IB9"
+    )
+    .then(
+      () => {
+        setSuccess("Message sent successfully! 🎉")
+        setFormData({ name: "", email: "", message: "" })
+      },
+      () => {
+        setError("Something went wrong. Try again.")
+      }
+    )
+    .finally(() => setLoading(false))
+}
 
   return (
     <main className="min-h-screen bg-background text-foreground">
