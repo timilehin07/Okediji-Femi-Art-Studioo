@@ -1,11 +1,18 @@
 "use client"
+
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useState } from "react"
 import emailjs from "@emailjs/browser"
 
+type FormData = {
+  name: string
+  email: string
+  message: string
+}
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     message: ""
@@ -15,43 +22,43 @@ export default function ContactPage() {
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
 
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  setFormData({
-    ...formData,
-    [e.target.id]: e.target.value,
-  })
-}
-
-const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault()
-  setLoading(true)
-  setSuccess("")
-  setError("")
-
-  const templateParams = {
-    from_name: formData.name,
-    from_email: formData.email,
-    message: formData.message,
+    const { id, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }))
   }
 
-  emailjs
-    .send(
-      "service_94yzq3z",
-      "template_44idizi",
-      templateParams,
-      "K5KXr4vG9x06O5IB9"
-    )
-    .then(
-      () => {
-        setSuccess("Message sent successfully! 🎉")
-        setFormData({ name: "", email: "", message: "" })
-      },
-      () => {
-        setError("Something went wrong. Try again.")
-      }
-    )
-    .finally(() => setLoading(false))
-}
+  // Handle form submission
+  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    setSuccess("")
+    setError("")
+
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      message: formData.message,
+    }
+
+    try {
+      await emailjs.send(
+        "service_94yzq3z",  // Your service ID
+        "template_44idizi", // Your template ID
+        templateParams,
+        "K5KXr4vG9x06O5IB9" // Your public key
+      )
+      setSuccess("Message sent successfully! 🎉")
+      setFormData({ name: "", email: "", message: "" })
+    } catch {
+      setError("Something went wrong. Try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -67,7 +74,6 @@ const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
-            
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
@@ -80,7 +86,8 @@ const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
 
               <div>
                 <h3 className="text-xl font-semibold mb-3">Phone</h3>
-                <a href="tel:+2348127942916"
+                <a
+                  href="tel:+2348127942916"
                   className="text-primary hover:underline flex items-start gap-3 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <span className="text-2xl mt-1">📞</span>
@@ -145,7 +152,7 @@ const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
                     className="w-full px-4 py-2 bg-background border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                     placeholder="Your message..."
                     required
-                  ></textarea>
+                  />
                 </div>
 
                 {success && <p className="text-green-600">{success}</p>}
@@ -160,7 +167,6 @@ const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
                 </button>
               </form>
             </div>
-
           </div>
         </div>
       </section>
