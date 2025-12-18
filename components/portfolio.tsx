@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
 
-// Define interfaces locally here
+// Interfaces defined locally
 interface Work {
   _id: string
   title: string
@@ -24,7 +24,6 @@ export default function Portfolio({ works }: PortfolioProps) {
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  // Intersection Observer for animations
   useEffect(() => {
     if (!works.length) return
 
@@ -54,7 +53,7 @@ export default function Portfolio({ works }: PortfolioProps) {
           {works.map((work, index) => (
             <div
               key={work._id}
-              ref={(el) => (itemRefs.current[index] = el)}
+              ref={(el) => { itemRefs.current[index] = el }} // ✅ fixed
               className={`group cursor-pointer relative transition-smooth ${
                 visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
               }`}
@@ -71,7 +70,6 @@ export default function Portfolio({ works }: PortfolioProps) {
                     alt={work.title}
                     className="w-full h-full object-cover transition-smooth duration-500 group-hover:scale-110"
                   />
-
                   <div
                     className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold transition-all ${
                       work.status === "sold"
