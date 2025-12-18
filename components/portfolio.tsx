@@ -2,7 +2,18 @@
 
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
-import { Work } from "@/types/work"
+
+// Define interfaces locally here
+interface Work {
+  _id: string
+  title: string
+  year: number
+  material: string
+  price?: number
+  status: "available" | "sold"
+  description?: string
+  image?: any
+}
 
 interface PortfolioProps {
   works: Work[]
