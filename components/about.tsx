@@ -3,17 +3,21 @@
 import { useEffect, useState } from "react"
 import { ChevronDown } from "lucide-react"
 import Image from "next/image"
-import { getAboutImage } from "@/lib/getAboutImage"
+import { getAboutImage, AboutData } from "@/lib/getAboutImage"
 import { urlFor } from "@/lib/sanityImage"
 
 export default function About() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [artistImage, setArtistImage] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchImage() {
-      const data = await getAboutImage()
-      setArtistImage(data?.artistImage)
+      const data: AboutData | null = await getAboutImage()
+      if (data?.artistImage) {
+        setArtistImage(data.artistImage)
+      }
+      setLoading(false)
     }
     fetchImage()
   }, [])
@@ -47,7 +51,7 @@ export default function About() {
             <h2 className="text-4xl md:text-5xl font-bold mb-8">About the Artist</h2>
 
             <div className="space-y-4">
-              {/* Artist Biography */}
+              {/* Biography */}
               <button
                 onClick={() => toggleSection("bio")}
                 className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
@@ -57,16 +61,19 @@ export default function About() {
                   className={`w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}`}
                 />
               </button>
+
               {expandedSection === "bio" && (
                 <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian artist (sculptor), hailing from Oyo State, Nigeria.
+                    Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian sculptor from Oyo State, Nigeria.
                   </p>
                   <p>
-                    He studied at The Polytechnic Ibadan and Yaba College of Technology, specializing in sculpture.
+                    He began his art journey with a National Diploma in General Art from The Polytechnic Ibadan and
+                    later earned his Higher National Diploma in Sculpture from Yaba College of Technology.
                   </p>
                   <p>
-                    His works blend traditional sculpting with contemporary themes and can be found in various exhibitions.
+                    Okediji Femi blends traditional sculpting techniques with contemporary themes, creating works
+                    that resonate with diverse audiences.
                   </p>
                 </div>
               )}
@@ -81,13 +88,13 @@ export default function About() {
                   className={`w-5 h-5 transition-transform ${expandedSection === "statement" ? "rotate-180" : ""}`}
                 />
               </button>
+
               {expandedSection === "statement" && (
                 <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
-                    In the tactile world of my sculptures, I weave societal narratives and personal experiences into tangible forms.
-                  </p>
-                  <p>
-                    My works invite viewers to feel, reflect, and connect with the layered complexities of our shared human experience.
+                    My sculptures reflect society, surroundings, and the omnipresent essence of women in daily life. I
+                    embed textures like lace to explore resilience, tradition, and interconnected patterns of human
+                    experience.
                   </p>
                 </div>
               )}
@@ -102,6 +109,7 @@ export default function About() {
                   className={`w-5 h-5 transition-transform ${expandedSection === "exhibitions" ? "rotate-180" : ""}`}
                 />
               </button>
+
               {expandedSection === "exhibitions" && (
                 <div className="p-6 bg-card border border-border rounded-lg">
                   <ul className="space-y-2 text-base text-muted-foreground">
@@ -117,21 +125,25 @@ export default function About() {
             </div>
           </div>
 
-          {/* Artist Image and Stats */}
+          {/* Image & Stats */}
           <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
-              {artistImage ? (
+              {loading ? (
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                  Loading image...
+                </div>
+              ) : artistImage?.asset ? (
                 <Image
                   src={urlFor(artistImage).width(800).height(800).url()!}
                   alt="Okediji Femi in Studio"
-                  width={500}
-                  height={500}
+                  width={800}
+                  height={800}
                   className="w-full h-full object-cover"
                   priority
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  Loading image...
+                  No image found
                 </div>
               )}
             </div>
