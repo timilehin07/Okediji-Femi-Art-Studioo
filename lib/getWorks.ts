@@ -1,5 +1,5 @@
 import { client } from "./sanityClient"
-xport async function getWorks() {
+export async function getWorks() {
   console.log("PROJECT ID:", process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)
   console.log("DATASET:", process.env.NEXT_PUBLIC_SANITY_DATASET)
 
