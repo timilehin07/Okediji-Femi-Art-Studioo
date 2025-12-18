@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
 
-// Interfaces defined locally
+// Define Work interface here
 interface Work {
   _id: string
   title: string
@@ -24,6 +24,7 @@ export default function Portfolio({ works }: PortfolioProps) {
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
+  // Intersection Observer for animations
   useEffect(() => {
     if (!works.length) return
 
@@ -49,11 +50,23 @@ export default function Portfolio({ works }: PortfolioProps) {
   return (
     <section className="py-20 px-6 md:py-32 bg-card">
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-16 animate-fade-in">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Selected Works
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl">
+            A curated selection of recent sculptural projects exploring form, material,
+            and the human experience.
+          </p>
+        </div>
+
+        {/* Works Grid */}
         <div className="grid md:grid-cols-3 gap-8">
           {works.map((work, index) => (
             <div
               key={work._id}
-              ref={(el) => { itemRefs.current[index] = el }} // ✅ fixed
+              ref={(el) => (itemRefs.current[index] = el)}
               className={`group cursor-pointer relative transition-smooth ${
                 visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
               }`}
@@ -70,6 +83,7 @@ export default function Portfolio({ works }: PortfolioProps) {
                     alt={work.title}
                     className="w-full h-full object-cover transition-smooth duration-500 group-hover:scale-110"
                   />
+
                   <div
                     className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold transition-all ${
                       work.status === "sold"
