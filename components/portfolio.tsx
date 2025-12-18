@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
-import { Work } from "@/types/work"
+import Link from "next/link"
 
 interface PortfolioProps {
   works: Work[]
