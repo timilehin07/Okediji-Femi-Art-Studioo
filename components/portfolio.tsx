@@ -1,18 +1,25 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { getWorks } from "@/lib/getWorks"
 import { urlFor } from "@/lib/sanityImage"
 
-export default function Portfolio() {
-  const [works, setWorks] = useState<any[]>([])
+// Define Work type (replace fields as needed)
+interface Work {
+  _id: string
+  title: string
+  description?: string
+  image: any
+}
+
+// Props interface
+interface PortfolioProps {
+  works: Work[]
+}
+
+export default function Portfolio({ works }: PortfolioProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
   const itemRefs = useRef<Array<HTMLDivElement | null>>([])
-
-  useEffect(() => {
-    getWorks().then((data) => setWorks(data))
-  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -67,7 +74,7 @@ export default function Portfolio() {
           {works.map((work, index) => (
             <div
               key={work._id}
-              ref={(el) => { itemRefs.current[index] = el }} // ✅ fixed ref
+              ref={(el) => { itemRefs.current[index] = el }}
               className={`group cursor-pointer relative transition-smooth ${
                 visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
               }`}
