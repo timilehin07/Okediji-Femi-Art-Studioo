@@ -52,21 +52,15 @@ export default function Portfolio({ works }: PortfolioProps) {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-16 animate-fade-in">
-          {/* Main heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
-            Our Works
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-6 max-w-2xl">
-            Explore the sculptural creations of Okediji Femi Art Studio
-          </p>
-
-          {/* Secondary heading */}
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Selected Works
           </h2>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl">
+            A curated selection of recent sculptural projects exploring form, material,
+            and the human experience.
+          </p>
         </div>
+
 
         {/* Works Grid */}
         <div className="grid md:grid-cols-3 gap-8">
