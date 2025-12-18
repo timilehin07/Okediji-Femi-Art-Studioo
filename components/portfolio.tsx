@@ -1,47 +1,42 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { getWorks } from "@/lib/getWorks"
 import { urlFor } from "@/lib/sanityImage"
 
-// Define Work interface here
 interface Work {
   _id: string
   title: string
-  year: number
-  material: string
-  price?: number
-  status: "available" | "sold"
-  description?: string
-  image?: any
+  description: string
+  image: any
 }
 
-interface PortfolioProps {
-  works: Work[]
-}
-
-export default function Portfolio({ works }: PortfolioProps) {
+export default function Portfolio() {
+  const [works, setWorks] = useState<Work[]>([])
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  // Intersection Observer for animations
   useEffect(() => {
-    if (!works.length) return
+    getWorks().then((data) => setWorks(data))
+  }, [])
 
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const index = itemRefs.current.indexOf(entry.target as HTMLDivElement)
+            const index = itemRefs.current.findIndex((el) => el === entry.target)
             setVisibleItems((prev) => new Set(prev).add(index))
+            observer.unobserve(entry.target)
           }
         })
       },
       { threshold: 0.1 }
     )
 
-    itemRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref)
+    itemRefs.current.forEach((el) => {
+      if (el) observer.observe(el)
     })
 
     return () => observer.disconnect()
@@ -62,11 +57,11 @@ export default function Portfolio({ works }: PortfolioProps) {
         </div>
 
         {/* Works Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {works.map((work, index) => (
             <div
               key={work._id}
-              ref={(el) => (itemRefs.current[index] = el)}
+              ref={(el) => { itemRefs.current[index] = el }}
               className={`group cursor-pointer relative transition-smooth ${
                 visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
               }`}
@@ -76,44 +71,18 @@ export default function Portfolio({ works }: PortfolioProps) {
               onMouseEnter={() => setHoveredId(work._id)}
               onMouseLeave={() => setHoveredId(null)}
             >
-              {work.image && (
-                <div className="aspect-square bg-muted rounded-lg overflow-hidden mb-4 relative hover-lift">
-                  <img
-                    src={urlFor(work.image).width(800).height(800).url()}
-                    alt={work.title}
-                    className="w-full h-full object-cover transition-smooth duration-500 group-hover:scale-110"
-                  />
-
-                  <div
-                    className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold transition-all ${
-                      work.status === "sold"
-                        ? "bg-red-500/90 text-white animate-pulse-soft"
-                        : "bg-green-500/90 text-white animate-glow"
-                    }`}
-                  >
-                    {work.status === "sold" ? "Sold" : "Available"}
+              <img
+                src={urlFor(work.image).url()}
+                alt={work.title}
+                className="w-full h-auto rounded-lg"
+              />
+              {hoveredId === work._id && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white p-4 rounded-lg transition-opacity">
+                  <div>
+                    <h3 className="text-lg font-semibold">{work.title}</h3>
+                    <p className="text-sm">{work.description}</p>
                   </div>
                 </div>
-              )}
-
-              <h3 className="text-lg sm:text-xl font-semibold mb-1 transition-smooth group-hover:text-accent">
-                {work.title}
-              </h3>
-
-              <p className="text-xs sm:text-sm text-muted-foreground mb-1">
-                {work.material} • {work.year}
-              </p>
-
-              {work.status === "available" && work.price && (
-                <p className="text-sm sm:text-base font-semibold text-accent mb-1">
-                  ₦{work.price.toLocaleString()}
-                </p>
-              )}
-
-              {hoveredId === work._id && work.description && (
-                <p className="text-xs sm:text-sm leading-relaxed text-foreground/80 animate-fade-in mt-2">
-                  {work.description}
-                </p>
               )}
             </div>
           ))}
