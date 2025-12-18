@@ -1,10 +1,4 @@
 import { client } from "./sanityClient"
-export async function getWorks() {
-  console.log("PROJECT ID:", process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)
-  console.log("DATASET:", process.env.NEXT_PUBLIC_SANITY_DATASET)
-
-  return client.fetch(`*[_type == "work"]{..., image}`)
-}
 
 export async function getWorks() {
   return client.fetch(`
