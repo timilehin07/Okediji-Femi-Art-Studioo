@@ -3,7 +3,6 @@ import Hero from "@/components/hero"
 import Portfolio from "@/components/portfolio"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
-import config from '@/lib/sanity.config' 
 
 export default function Home() {
   return (
