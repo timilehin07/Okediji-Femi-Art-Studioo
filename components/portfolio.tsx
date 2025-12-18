@@ -2,15 +2,20 @@
 
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
+import { Work } from "@/types/work"
 
-export default function Portfolio({ works }: { works: any[] }) {
+interface PortfolioProps {
+  works: Work[]
+}
+
+export default function Portfolio({ works }: PortfolioProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
   // Intersection Observer for animations
   useEffect(() => {
-    if (!works?.length) return
+    if (!works.length) return
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -35,10 +40,10 @@ export default function Portfolio({ works }: { works: any[] }) {
     <section className="py-20 px-6 md:py-32 bg-card">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-3 gap-8">
-          {works?.map((work, index) => (
+          {works.map((work, index) => (
             <div
               key={work._id}
-              ref={(el) => { itemRefs.current[index] = el }}
+              ref={(el) => (itemRefs.current[index] = el)}
               className={`group cursor-pointer relative transition-smooth ${
                 visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
               }`}
