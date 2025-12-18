@@ -2,18 +2,12 @@
 
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
-import Link from "next/link"
 
-interface PortfolioProps {
-  works: Work[]
-}
-
-export default function Portfolio({ works }: PortfolioProps) {
+export default function Portfolio({ works }: { works: any[] }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  // Intersection Observer for animations
   useEffect(() => {
     if (!works.length) return
 
