@@ -1,5 +1,4 @@
 import { client } from "./sanityClient"
-import { Work } from "@/types/work"
 
 export async function getWorks(): Promise<Work[]> {
   return client.fetch(`
