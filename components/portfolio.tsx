@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
+import { client } from "@/lib/sanityClient"
 
 // Define Work interface here
 interface Work {
@@ -15,6 +16,7 @@ interface Work {
   image?: any
 }
 
+// Props interface
 interface PortfolioProps {
   works: Work[]
 }
@@ -50,13 +52,24 @@ export default function Portfolio({ works }: PortfolioProps) {
   return (
     <section className="py-20 px-6 md:py-32 bg-card">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Heading */}
         <div className="mb-16 animate-fade-in text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Our Works
-          </h2>
+          </h1>
           <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore the sculptural creations of Okediji Femi Art Studio
+          </p>
+        </div>
+
+        {/* Selected Works */}
+        <div className="mb-12 animate-fade-in text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Selected Works
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+            A curated selection of recent sculptural projects exploring form, material,
+            and the human experience.
           </p>
         </div>
 
@@ -65,9 +78,7 @@ export default function Portfolio({ works }: PortfolioProps) {
           {works.map((work, index) => (
             <div
               key={work._id}
-              ref={(el) => {
-                if (el) itemRefs.current[index] = el
-              }}
+              ref={(el) => (itemRefs.current[index] = el)}
               className={`group cursor-pointer relative transition-smooth ${
                 visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
               }`}
