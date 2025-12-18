@@ -1,4 +1,4 @@
-import { client } from "./sanity"
+import { client } from "./sanityClient"
 
 export async function getHomeHero() {
   return client.fetch(`
