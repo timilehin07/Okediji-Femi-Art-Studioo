@@ -46,9 +46,15 @@ export default async function AboutPage() {
             <details className="group">
               <summary className="flex cursor-pointer items-center justify-between list-none">
                 <h2 className="text-4xl md:text-5xl font-bold">About the Artist</h2>
-                <span className="text-3xl text-accent group-open:rotate-45 transition-transform">
-                  +
-                </span>
+                <svg
+                  className="h-8 w-8 text-accent transition-transform duration-300 group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </summary>
               <div className="mt-6 p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                 <p>
@@ -90,9 +96,15 @@ export default async function AboutPage() {
             <details className="group">
               <summary className="flex cursor-pointer items-center justify-between list-none">
                 <h2 className="text-4xl md:text-5xl font-bold">Artist Statement</h2>
-                <span className="text-3xl text-accent group-open:rotate-45 transition-transform">
-                  +
-                </span>
+                <svg
+                  className="h-8 w-8 text-accent transition-transform duration-300 group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </summary>
               <div className="mt-6 p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                 <p>
@@ -126,9 +138,15 @@ export default async function AboutPage() {
             <details className="group">
               <summary className="flex cursor-pointer items-center justify-between list-none">
                 <h2 className="text-4xl md:text-5xl font-bold">Artist Exhibitions</h2>
-                <span className="text-3xl text-accent group-open:rotate-45 transition-transform">
-                  +
-                </span>
+                <svg
+                  className="h-8 w-8 text-accent transition-transform duration-300 group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </summary>
               <div className="mt-6 p-6 bg-card border border-border rounded-lg">
                 <ul className="space-y-2 text-base text-muted-foreground">
