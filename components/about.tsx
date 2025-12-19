@@ -17,7 +17,7 @@ async function getAboutImage(): Promise<AboutData | null> {
 
 export default function About() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
- 
+  const [artistImage, setArtistImage] = useState<any>(null)
 
 
 export default async function AboutPage() {
