@@ -1,6 +1,5 @@
 import { client } from "./sanityClient"
 
-// Define Work interface here
 interface Work {
   _id: string
   title: string
@@ -13,7 +12,8 @@ interface Work {
 }
 
 export async function getWorks(): Promise<Work[]> {
-  return client.fetch(`
+  return client.fetch(
+    `
     *[_type == "work"] | order(_createdAt desc) {
       _id,
       title,
@@ -24,5 +24,8 @@ export async function getWorks(): Promise<Work[]> {
       description,
       image
     }
-  `)
+    `,
+    {},
+    { cache: "no-store" }
+  )
 }
