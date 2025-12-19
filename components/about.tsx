@@ -1,19 +1,24 @@
-"use client"
-
-import React, { useState, useEffect } from "react"
-import { ChevronDown } from "lucide-react"
 import Image from "next/image"
-import { client } from "@/lib/getHomeHero"
+import { urlFor } from "@/lib/sanityImage"
+import { client } from "@/lib/sanityClient"
 
-export default function About() {
-  const [expandedSection, setExpandedSection] = useState<string | null>(null)
-  const [artistImage, setArtistImage] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+interface AboutData {
+  artistImage?: any
+}
 
-  const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section)
-  }
+async function getAboutImage(): Promise<AboutData | null> {
+  const data = await client.fetch(`
+    *[_type == "about"][0]{
+      artistImage
+    }
+  `)
+  return data || null
+}
 
+export default async function AboutPage() {
+  const aboutData = await getAboutImage()
+  const artistImage = aboutData?.artistImage
+  
   const exhibitions = [
     "ICAF ART EXHIBITION (2017)",
     "GUSTO ART CHALLENGE (2017)",
@@ -170,11 +175,7 @@ export default function About() {
           {/* Artist Image & Stats */}
           <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
-              {loading ? (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  Loading image...
-                </div>
-              ) : artistImage?.asset ? (
+              {artistImage?.asset ? (
                 <Image
                   src={urlFor(artistImage).width(800).height(800).url()!}
                   alt="Okediji Femi in Studio"
