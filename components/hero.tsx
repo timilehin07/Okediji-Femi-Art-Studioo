@@ -1,5 +1,4 @@
 "use client"
-export const revalidate = 60
 
 import { useEffect, useRef } from "react"
 import Link from "next/link"
