@@ -11,10 +11,12 @@ export default function About() {
   const [artistImage, setArtistImage] = useState<any>(null)
 
   // Fetch image on mount
-  useEffect(() => {
+   useEffect(() => {
     async function fetchImage() {
       const data = await getAboutImage()
-      setArtistImage(data?.artistImage)
+      if (data?.artistImage) {
+        setArtistImage(data.artistImage)
+      }
     }
     fetchImage()
   }, [])
@@ -22,7 +24,6 @@ export default function About() {
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section)
   }
-
   const exhibitions = [
     "ICAF ART EXHIBITION (2017)",
     "GUSTO ART CHALLENGE (2017)",
@@ -159,7 +160,7 @@ export default function About() {
           </div>
 
           {/* Artist Image & Stats */}
-          <div className="space-y-6">
+         <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
               {artistImage ? (
                 <Image
@@ -175,6 +176,7 @@ export default function About() {
                 </div>
               )}
             </div>
+
 
             <div className="grid grid-cols-2 gap-4">
               <div className="p-6 bg-card border border-border rounded-lg">
