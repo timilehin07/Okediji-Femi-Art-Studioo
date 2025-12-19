@@ -43,7 +43,8 @@ export default async function AboutPage() {
         <div className="grid md:grid-cols-2 gap-16 items-start">
           <div>
             <h3 className="text-xl font-semibold">Artist Biography</h3>
-               
+            
+               <div className="space-y-4">
                 <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
                     Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian artist (sculptor), who hails from Oyo
