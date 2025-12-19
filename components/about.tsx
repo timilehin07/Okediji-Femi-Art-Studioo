@@ -1,7 +1,5 @@
 "use client"
 
-export const revalidate = 60
-
 import Image from "next/image"
 import { urlFor } from "@/lib/sanityImage"
 import { client } from "@/lib/sanityClient"
