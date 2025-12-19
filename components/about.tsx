@@ -4,10 +4,15 @@ import { client } from "@/lib/sanityClient"
 interface AboutData {
   artistImage?: any
 }
-async function getAboutImage(): Promise<AboutData | null> {
-  const data = await client.fetch( &nbsp;&nbsp;&nbsp;&nbsp;*[_type == "about"][0]{ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;artistImage &nbsp;&nbsp;&nbsp;&nbsp;} &nbsp;&nbsp;)
-  return data || null
+  async function getAboutImage(): Promise<AboutData | null> {
+  const data = await client.fetch(`
+    *[_type == "about"][0]{
+      artistImage
+    }
+  `);
+  return data || null;
 }
+
 export default async function AboutPage() {
   const aboutData = await getAboutImage()
   const artistImage = aboutData?.artistImage
