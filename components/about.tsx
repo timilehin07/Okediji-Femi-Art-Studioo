@@ -6,20 +6,18 @@ import Image from "next/image"
 import { getAboutImage } from "@/lib/getAboutImage"
 import { urlFor } from "@/lib/sanityImage"
 
-export default function About() {
-  const [expandedSection, setExpandedSection] = useState<string | null>(null)
-  const [artistImage, setArtistImage] = useState<any>(null)
+interface AboutData {
+  artistImage?: any
+}
 
-  // Fetch image on mount
-   useEffect(() => {
-    async function fetchImage() {
-      const data = await getAboutImage()
-      if (data?.artistImage) {
-        setArtistImage(data.artistImage)
-      }
+async function getAboutImage(): Promise<AboutData | null> {
+  const data = await client.fetch(`
+    *[_type == "about"][0]{
+      artistImage
     }
-    fetchImage()
-  }, [])
+  `)
+  return data || null
+}
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section)
@@ -160,19 +158,20 @@ export default function About() {
           </div>
 
           {/* Artist Image & Stats */}
-         <div className="space-y-6">
+          <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
-              {artistImage ? (
+              {artistImage?.asset ? (
                 <Image
                   src={urlFor(artistImage).width(800).height(800).url()!}
                   alt="Okediji Femi in Studio"
-                  width={500}
-                  height={500}
+                  width={800}
+                  height={800}
                   className="w-full h-full object-cover"
+                  priority
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  Loading image...
+                  No image found
                 </div>
               )}
             </div>
