@@ -1,6 +1,6 @@
-"use client" // <-- Add this at the very top
+"use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 import { urlFor } from "@/lib/sanityImage"
@@ -20,16 +20,14 @@ async function getAboutImage(): Promise<AboutData | null> {
 }
 
 export default function AboutPage() {
-  const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [aboutData, setAboutData] = useState<AboutData | null>(null)
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
 
-  // Accordion toggle function
   const toggleSection = (section: string) => {
     setExpandedSection(prev => (prev === section ? null : section))
   }
 
-  // Fetch data on mount (client-side)
-  useState(() => {
+  useEffect(() => {
     getAboutImage().then(setAboutData)
   }, [])
 
@@ -50,8 +48,9 @@ export default function AboutPage() {
     "VSS FUTURE LABS 2025",
     "GENERATION 7 (Mydrim Gallery) 2025",
   ]
-  return (
-    <section className="py-20 px-6 md:py-32">
+
+  return (
+    <section className="py-20 px-6 md:py-32">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-16 items-start">
           <div>
