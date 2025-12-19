@@ -45,7 +45,7 @@ export default async function AboutPage() {
               >
                 <h3 className="text-xl font-semibold">Artist Biography</h3>
                 <ChevronDown
-                  className={w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}}
+                  className={`w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}`}
                 />
               </button>
               {expandedSection === "bio" && (
@@ -90,7 +90,7 @@ export default async function AboutPage() {
               >
                 <h3 className="text-xl font-semibold">Artist Statement</h3>
                 <ChevronDown
-                  className={w-5 h-5 transition-transform ${expandedSection === "statement" ? "rotate-180" : ""}}
+                  className={`w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}`}
                 />
               </button>
               {expandedSection === "statement" && (
@@ -126,7 +126,7 @@ export default async function AboutPage() {
               >
                 <h3 className="text-xl font-semibold">Exhibitions</h3>
                 <ChevronDown
-                  className={`w-5 h-5 transition-transform ${expandedSection === "exhibitions" ? "rotate-180" : ""}`}
+                 className={`w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}`}
                 />
               </button>
               {expandedSection === "exhibitions" && (
