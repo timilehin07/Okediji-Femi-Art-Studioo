@@ -1,37 +1,55 @@
+"use client" // <-- Add this at the very top
+
+import { useState } from "react"
 import Image from "next/image"
+import { ChevronDown } from "lucide-react"
 import { urlFor } from "@/lib/sanityImage"
 import { client } from "@/lib/sanityClient"
+
 interface AboutData {
-  artistImage?: any
+  artistImage?: any
 }
-  async function getAboutImage(): Promise<AboutData | null> {
+
+async function getAboutImage(): Promise<AboutData | null> {
   const data = await client.fetch(`
     *[_type == "about"][0]{
       artistImage
     }
-  `);
-  return data || null;
+  `)
+  return data || null
 }
 
-export default async function AboutPage() {
-  const aboutData = await getAboutImage()
-  const artistImage = aboutData?.artistImage
-  const exhibitions = [
-    "ICAF ART EXHIBITION (2017)",
-    "GUSTO ART CHALLENGE (2017)",
-    "OGIRIKAN MINIATURE ART EXHIBITION (2018)",
-    "CONVERGENCE (2018)",
-    "YABA TECH FINAL YEAR SCULPTURE EXHIBITION (2019)",
-    "PADE BY ECOBANK (2022)",
-    "ARTMOSPHERE ART & NFT EXHIBITION (2022)",
-    "PSHAN ART EXHIBITION AND AUCTION (2023)",
-    "AGA ART EXHIBITION (2023)",
-    "+234 ART FAIR (ECOBANK) (2024)",
-    "LAGOS CANVAS (British Consulate) 2025",
-    "+234 ART FAIR (ECOBANK) 2025",
-    "VSS FUTURE LABS 2025",
-    "GENERATION 7 (Mydrim Gallery) 2025",
-  ]
+export default function AboutPage() {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+  const [aboutData, setAboutData] = useState<AboutData | null>(null)
+
+  // Accordion toggle function
+  const toggleSection = (section: string) => {
+    setExpandedSection(prev => (prev === section ? null : section))
+  }
+
+  // Fetch data on mount (client-side)
+  useState(() => {
+    getAboutImage().then(setAboutData)
+  }, [])
+
+  const artistImage = aboutData?.artistImage
+  const exhibitions = [
+    "ICAF ART EXHIBITION (2017)",
+    "GUSTO ART CHALLENGE (2017)",
+    "OGIRIKAN MINIATURE ART EXHIBITION (2018)",
+    "CONVERGENCE (2018)",
+    "YABA TECH FINAL YEAR SCULPTURE EXHIBITION (2019)",
+    "PADE BY ECOBANK (2022)",
+    "ARTMOSPHERE ART & NFT EXHIBITION (2022)",
+    "PSHAN ART EXHIBITION AND AUCTION (2023)",
+    "AGA ART EXHIBITION (2023)",
+    "+234 ART FAIR (ECOBANK) (2024)",
+    "LAGOS CANVAS (British Consulate) 2025",
+    "+234 ART FAIR (ECOBANK) 2025",
+    "VSS FUTURE LABS 2025",
+    "GENERATION 7 (Mydrim Gallery) 2025",
+  ]
   return (
     <section className="py-20 px-6 md:py-32">
       <div className="max-w-7xl mx-auto">
