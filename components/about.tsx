@@ -1,4 +1,4 @@
-use client" // add this at the very top
+"use client";
 
 import Image from "next/image"
 import { urlFor } from "@/lib/sanityImage"
