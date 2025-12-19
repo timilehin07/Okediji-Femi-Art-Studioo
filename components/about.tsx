@@ -1,3 +1,5 @@
+"use client"
+
 export const revalidate = 60
 
 import Image from "next/image"
