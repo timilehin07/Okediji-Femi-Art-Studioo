@@ -79,6 +79,7 @@ export default async function AboutPage() {
                   </p>
               </div>
 
+              <h2 className="text-4xl md:text-5xl font-bold mb-8">About the Artist</h2>
               <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                 <p>
                     In the tactile world of my sculptures, I weave the intricate dance of my surroundings, society's
