@@ -1,4 +1,8 @@
+"use client" // 👈 important for useState
+
+import { useEffect, useState } from "react"
 import Image from "next/image"
+import { ChevronDown } from "lucide-react"
 import { urlFor } from "@/lib/sanityImage"
 import { client } from "@/lib/sanityClient"
 
@@ -6,17 +10,24 @@ interface AboutData {
   artistImage?: any
 }
 
-async function getAboutImage(): Promise<AboutData | null> {
-  const data = await client.fetch(`
-    *[_type == "about"][0]{
-      artistImage
-    }
-  `)
-  return data || null
-}
+export default function AboutPage() {
+  const [aboutData, setAboutData] = useState<AboutData | null>(null)
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
 
-export default async function AboutPage() {
-  const aboutData = await getAboutImage()
+  useEffect(() => {
+    async function fetchData() {
+      const data = await client.fetch(`
+        *[_type == "about"][0]{ artistImage }
+      `)
+      setAboutData(data || null)
+    }
+    fetchData()
+  }, [])
+
+  const toggleSection = (section: string) => {
+    setExpandedSection(prev => (prev === section ? null : section))
+  }
+
   const artistImage = aboutData?.artistImage
 
   const exhibitions = [
@@ -44,42 +55,79 @@ export default async function AboutPage() {
             <h2 className="text-4xl md:text-5xl font-bold mb-8">About the Artist</h2>
 
             <div className="space-y-4">
-              <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
-                <p>
-                  Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian sculptor from Oyo State, Nigeria.
-                </p>
-                <p>
-                  He began his art journey with a National Diploma in General Art from The Polytechnic Ibadan and
-                  later earned his Higher National Diploma in Sculpture from Yaba College of Technology.
-                </p>
-                <p>
-                  Okediji Femi blends traditional sculpting techniques with contemporary themes, creating works
-                  that resonate with diverse audiences.
-                </p>
-              </div>
+              {/* Artist Biography */}
+              <button
+                onClick={() => toggleSection("bio")}
+                className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
+              >
+                <h3 className="text-xl font-semibold">Artist Biography</h3>
+                <ChevronDown
+                  className={`w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}`}
+                />
+              </button>
+              {expandedSection === "bio" && (
+                <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
+                  <p>
+                    Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian sculptor from Oyo State, Nigeria.
+                  </p>
+                  <p>
+                    He began his art journey with a National Diploma in General Art from The Polytechnic Ibadan and
+                    later earned his Higher National Diploma in Sculpture from Yaba College of Technology.
+                  </p>
+                  <p>
+                    Okediji Femi blends traditional sculpting techniques with contemporary themes, creating works
+                    that resonate with diverse audiences.
+                  </p>
+                </div>
+              )}
 
-              <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
-                <p>
-                  My sculptures reflect society, surroundings, and the omnipresent essence of women in daily life. I
-                  embed textures like lace to explore resilience, tradition, and interconnected patterns of human
-                  experience.
-                </p>
-              </div>
+              {/* Artist Statement */}
+              <button
+                onClick={() => toggleSection("statement")}
+                className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
+              >
+                <h3 className="text-xl font-semibold">Artist Statement</h3>
+                <ChevronDown
+                  className={`w-5 h-5 transition-transform ${expandedSection === "statement" ? "rotate-180" : ""}`}
+                />
+              </button>
+              {expandedSection === "statement" && (
+                <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
+                  <p>
+                    My sculptures reflect society, surroundings, and the omnipresent essence of women in daily life. I
+                    embed textures like lace to explore resilience, tradition, and interconnected patterns of human
+                    experience.
+                  </p>
+                </div>
+              )}
 
-              <div className="p-6 bg-card border border-border rounded-lg">
-                <ul className="space-y-2 text-base text-muted-foreground">
-                  {exhibitions.map((exhibition, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="mr-3 text-accent">•</span>
-                      <span>{exhibition}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {/* Exhibitions */}
+              <button
+                onClick={() => toggleSection("exhibitions")}
+                className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
+              >
+                <h3 className="text-xl font-semibold">Exhibitions</h3>
+                <ChevronDown
+                  className={`w-5 h-5 transition-transform ${expandedSection === "exhibitions" ? "rotate-180" : ""}`}
+                />
+              </button>
+              {expandedSection === "exhibitions" && (
+                <div className="p-6 bg-card border border-border rounded-lg">
+                  <ul className="space-y-2 text-base text-muted-foreground">
+                    {exhibitions.map((exhibition, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="mr-3 text-accent">•</span>
+                        <span>{exhibition}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="space-y-6">
+            {/* Artist Image */}
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
               {artistImage?.asset ? (
                 <Image
@@ -97,6 +145,7 @@ export default async function AboutPage() {
               )}
             </div>
 
+            {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
               <div className="p-6 bg-card border border-border rounded-lg">
                 <p className="text-3xl font-bold mb-2">15+</p>
