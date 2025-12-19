@@ -1,28 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import Image from "next/image"
+import React, { useState, useEffect } from "react"
 import { ChevronDown } from "lucide-react"
-import { client } from "@/lib/sanityClient"
+import Image from "next/image"
+import { getAboutImage } from "@/lib/getAboutImage"
 import { urlFor } from "@/lib/sanityImage"
 
-// Fetch About data from Sanity
-async function getAboutData() {
-  const data = await client.fetch(`
-    *[_type == "about"][0]{
-      artistImage
-    }
-  `)
-  return data || null
-}
-
-export default function AboutPage() {
+export default function About() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
-  const [aboutData, setAboutData] = useState<any>(null)
+  const [artistImage, setArtistImage] = useState<any>(null)
 
-  // Fetch data on component mount
-  React.useEffect(() => {
-    getAboutData().then((data) => setAboutData(data))
+  // Fetch image on mount
+  useEffect(() => {
+    async function fetchImage() {
+      const data = await getAboutImage()
+      setArtistImage(data?.artistImage)
+    }
+    fetchImage()
   }, [])
 
   const toggleSection = (section: string) => {
@@ -65,7 +59,6 @@ export default function AboutPage() {
                   className={`w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}`}
                 />
               </button>
-
               {expandedSection === "bio" && (
                 <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
@@ -103,7 +96,7 @@ export default function AboutPage() {
                 </div>
               )}
 
-              {/* Statement */}
+              {/* Artist Statement */}
               <button
                 onClick={() => toggleSection("statement")}
                 className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
@@ -113,7 +106,6 @@ export default function AboutPage() {
                   className={`w-5 h-5 transition-transform ${expandedSection === "statement" ? "rotate-180" : ""}`}
                 />
               </button>
-
               {expandedSection === "statement" && (
                 <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                   <p>
@@ -151,7 +143,6 @@ export default function AboutPage() {
                   className={`w-5 h-5 transition-transform ${expandedSection === "exhibitions" ? "rotate-180" : ""}`}
                 />
               </button>
-
               {expandedSection === "exhibitions" && (
                 <div className="p-6 bg-card border border-border rounded-lg">
                   <ul className="space-y-2 text-base text-muted-foreground">
@@ -170,18 +161,17 @@ export default function AboutPage() {
           {/* Artist Image & Stats */}
           <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
-              {aboutData?.artistImage?.asset ? (
+              {artistImage ? (
                 <Image
-                  src={urlFor(aboutData.artistImage).width(800).height(800).url()!}
+                  src={urlFor(artistImage).width(800).height(800).url()!}
                   alt="Okediji Femi in Studio"
-                  width={800}
-                  height={800}
+                  width={500}
+                  height={500}
                   className="w-full h-full object-cover"
-                  priority
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  No image found
+                  Loading image...
                 </div>
               )}
             </div>
