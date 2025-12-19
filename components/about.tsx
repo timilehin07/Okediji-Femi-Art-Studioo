@@ -15,6 +15,11 @@ async function getAboutImage(): Promise<AboutData | null> {
   return data || null
 }
 
+export default function About() {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+ 
+
+
 export default async function AboutPage() {
   const aboutData = await getAboutImage()
   const artistImage = aboutData?.artistImage
