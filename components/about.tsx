@@ -79,7 +79,7 @@ export default async function AboutPage() {
                   </p>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-bold mb-8">About the Artist</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-8">Artist statement</h2>
               <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
                 <p>
                     In the tactile world of my sculptures, I weave the intricate dance of my surroundings, society's
@@ -104,7 +104,8 @@ export default async function AboutPage() {
                     just a reflection of society, but an invitation to engage, understand, and evolve with it.
                   </p>
               </div>
-
+              
+              <h2 className="text-4xl md:text-5xl font-bold mb-8">Artist exhibition</h2>
               <div className="p-6 bg-card border border-border rounded-lg">
                 <ul className="space-y-2 text-base text-muted-foreground">
                   {exhibitions.map((exhibition, index) => (
