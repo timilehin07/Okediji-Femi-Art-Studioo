@@ -1,15 +1,23 @@
-"use client";
+import Image from "next/image"
+import { urlFor } from "@/lib/sanityImage"
+import { client } from "@/lib/sanityClient"
 
-import Image from "next/image";
-import { urlFor } from "@/lib/sanityImage";
-import { client } from "@/lib/sanityClient";
-import { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+interface AboutData {
+  artistImage?: any
+}
 
-export default function AboutPage() {
-  const [artistImage, setArtistImage] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+async function getAboutImage(): Promise<AboutData | null> {
+  const data = await client.fetch(`
+    *[_type == "about"][0]{
+      artistImage
+    }
+  `)
+  return data || null
+}
+
+export default async function AboutPage() {
+  const aboutData = await getAboutImage()
+  const artistImage = aboutData?.artistImage
 
   const exhibitions = [
     "ICAF ART EXHIBITION (2017)",
@@ -26,137 +34,54 @@ export default function AboutPage() {
     "+234 ART FAIR (ECOBANK) 2025",
     "VSS FUTURE LABS 2025",
     "GENERATION 7 (Mydrim Gallery) 2025",
-  ];
-
-  const toggleSection = (section: string) =>
-    setExpandedSection((prev) => (prev === section ? null : section));
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await client.fetch(`
-          *[_type == "about"][0]{
-            artistImage
-          }
-        `);
-        setArtistImage(data?.artistImage);
-      } catch (err) {
-        console.error("Failed to fetch about image:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, []);
+  ]
 
   return (
     <section className="py-20 px-6 md:py-32">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-16 items-start">
-          {/* Artist Details */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">
-              About the Artist
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">About the Artist</h2>
 
             <div className="space-y-4">
-              {/* Biography */}
-              <button
-                onClick={() => toggleSection("bio")}
-                className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
-              >
-                <h3 className="text-xl font-semibold">Artist Biography</h3>
-                <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    expandedSection === "bio" ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {expandedSection === "bio" && (
-                <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
-                  <p>
-                    Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian
-                    artist (sculptor), who hails from Oyo State, Nigeria.
-                  </p>
-                  <p>
-                    He pursued a National Diploma in General Art from The
-                    Polytechnic Ibadan, and a Higher National Diploma in
-                    Sculpture from Yaba College of Technology.
-                  </p>
-                  <p>
-                    He has worked under great masters of sculptures such as
-                    Bunmi Babatunde, Patrick Agose, and Boma Joe Jim.
-                  </p>
-                  <p>
-                    Today, his pieces can be found in various exhibitions and
-                    collections.
-                  </p>
-                </div>
-              )}
+              <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
+                <p>
+                  Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian sculptor from Oyo State, Nigeria.
+                </p>
+                <p>
+                  He began his art journey with a National Diploma in General Art from The Polytechnic Ibadan and
+                  later earned his Higher National Diploma in Sculpture from Yaba College of Technology.
+                </p>
+                <p>
+                  Okediji Femi blends traditional sculpting techniques with contemporary themes, creating works
+                  that resonate with diverse audiences.
+                </p>
+              </div>
 
-              {/* Artist Statement */}
-              <button
-                onClick={() => toggleSection("statement")}
-                className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
-              >
-                <h3 className="text-xl font-semibold">Artist Statement</h3>
-                <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    expandedSection === "statement" ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {expandedSection === "statement" && (
-                <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
-                  <p>
-                    In my sculptures, I reflect my surroundings, society's
-                    narratives, and the omnipresent essence of women who grace
-                    my life. Each piece invites reflection, touch, and
-                    connection.
-                  </p>
-                  <p>
-                    Embedding textures and patterns serves as homage to
-                    traditions, femininity, and societal influences in daily
-                    life.
-                  </p>
-                </div>
-              )}
+              <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
+                <p>
+                  My sculptures reflect society, surroundings, and the omnipresent essence of women in daily life. I
+                  embed textures like lace to explore resilience, tradition, and interconnected patterns of human
+                  experience.
+                </p>
+              </div>
 
-              {/* Exhibitions */}
-              <button
-                onClick={() => toggleSection("exhibitions")}
-                className="w-full flex items-center justify-between p-6 bg-card border border-border rounded-lg hover:bg-accent/5 transition-colors"
-              >
-                <h3 className="text-xl font-semibold">Exhibitions</h3>
-                <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    expandedSection === "exhibitions" ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              {expandedSection === "exhibitions" && (
-                <div className="p-6 bg-card border border-border rounded-lg">
-                  <ul className="space-y-2 text-base text-muted-foreground">
-                    {exhibitions.map((exhibition, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="mr-3 text-accent">•</span>
-                        <span>{exhibition}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <div className="p-6 bg-card border border-border rounded-lg">
+                <ul className="space-y-2 text-base text-muted-foreground">
+                  {exhibitions.map((exhibition, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="mr-3 text-accent">•</span>
+                      <span>{exhibition}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
-          {/* Artist Image & Stats */}
           <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
-              {loading ? (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  Loading...
-                </div>
-              ) : artistImage?.asset ? (
+              {artistImage?.asset ? (
                 <Image
                   src={urlFor(artistImage).width(800).height(800).url()!}
                   alt="Okediji Femi in Studio"
@@ -186,5 +111,5 @@ export default function AboutPage() {
         </div>
       </div>
     </section>
-  );
+  )
 }
