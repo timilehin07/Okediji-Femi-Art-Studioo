@@ -37,24 +37,19 @@ export default function AboutPage() {
     async function fetchArtistImage() {
       try {
         const data = await client.fetch(`
-          *[_type == "about"][0]{
-            artistImage {
-              asset-> {
-                _id,
-                url
-              }
-            }
+          *[_type == "about"][0] {
+            artistImage
           }
         `)
 
-        if (data?.artistImage?.asset) {
+        if (data?.artistImage) {
           setArtistImage(data.artistImage)
         } else {
-          setError("No image uploaded in Sanity")
+          setError("No image uploaded in the 'about' document in Sanity")
         }
       } catch (err) {
         console.error("Error fetching artist image:", err)
-        setError("Failed to load image")
+        setError("Failed to load image from Sanity")
       } finally {
         setLoading(false)
       }
@@ -144,7 +139,7 @@ export default function AboutPage() {
               {loading ? (
                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">Loading image...</div>
               ) : error ? (
-                <div className="w-full h-full flex items-center justify-center text-red-600">{error}</div>
+                <div className="w-full h-full flex items-center justify-center text-red-600 font-medium">{error}</div>
               ) : imageUrl ? (
                 <Image
                   src={imageUrl}
