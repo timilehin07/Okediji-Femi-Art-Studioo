@@ -1,15 +1,19 @@
 "use client"
 
+import React, { useState, useEffect } from "react"
+import { ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { urlFor } from "@/lib/sanityImage"
 import { client } from "@/lib/sanityClient"
-import { useState, useEffect } from "react"
-import { ChevronDown } from "lucide-react"
 
 export default function AboutPage() {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
   const [artistImage, setArtistImage] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+
+  const toggleSection = (section: string) => {
+    setExpandedSection(expandedSection === section ? null : section)
+  }
 
   const exhibitions = [
     "ICAF ART EXHIBITION (2017)",
@@ -28,21 +32,23 @@ export default function AboutPage() {
     "GENERATION 7 (Mydrim Gallery) 2025",
   ]
 
-  const toggleSection = (section: string) =>
-    setExpandedSection((prev) => (prev === section ? null : section))
-
   useEffect(() => {
-    async function fetchData() {
+    async function fetchAboutData() {
       try {
-        const data = await client.fetch(`*[_type == "about"][0]{ artistImage }`)
+        const data = await client.fetch(`
+          *[_type == "about"][0]{
+            artistImage
+          }
+        `)
         setArtistImage(data?.artistImage)
       } catch (err) {
-        console.error("Failed to fetch about image:", err)
+        console.error("Failed to fetch about data:", err)
       } finally {
         setLoading(false)
       }
     }
-    fetchData()
+
+    fetchAboutData()
   }, [])
 
   return (
@@ -61,19 +67,43 @@ export default function AboutPage() {
               >
                 <h3 className="text-xl font-semibold">Artist Biography</h3>
                 <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    expandedSection === "bio" ? "rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 transition-transform ${expandedSection === "bio" ? "rotate-180" : ""}`}
                 />
               </button>
               {expandedSection === "bio" && (
                 <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
-                  <p>Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian artist...</p>
-                  <p>Okediji Femi has always been deeply connected...</p>
-                  <p>It was at the Yaba College of Technology where...</p>
-                  <p>He worked as an IT student at the Universal Studios...</p>
-                  <p>Over the years, Okediji Femi has managed to carve a niche...</p>
-                  <p>Today, Okediji Femi's pieces can be found in various exhibitions...</p>
+                  <p>
+                    Born on March 25th, 1995, Okediji Femi Samuel is a Nigerian artist (sculptor), who hails from Oyo
+                    State, Nigeria and was born on the 25th day of March 1995 in Ibadan, Oyo State, Nigeria.
+                  </p>
+                  <p>
+                    Okediji Femi has always been deeply connected to the artistic pulse that runs through his veins. His
+                    journey into the art world began with a National Diploma in General Art from The Polytechnic Ibadan,
+                    a foundation that equipped him with a diverse set of skills and a broad understanding of artistic
+                    expressions.
+                  </p>
+                  <p>
+                    It was at the Yaba College of Technology where Okediji Femi found his true calling. Here, he pursued
+                    and obtained his Higher National Diploma in Sculpture, diving deep into the world of
+                    three-dimensional art. His sculptures, often influenced by his surroundings and personal
+                    experiences, weave narratives that resonate with a wide audience.
+                  </p>
+                  <p>
+                    He worked as an IT student at the Universal Studios Of Art, National Theatre, Iganmu, Lagos, under
+                    great masters of sculptures such as Bunmi Babatunde, Patrick Agose, Boma Joe Jim and other talented
+                    minds.
+                  </p>
+                  <p>
+                    Over the years, Okediji Femi has managed to carve a niche for himself, blending traditional
+                    sculpting techniques with contemporary themes. His works reflect his dedication to his craft, his
+                    deep understanding of materials, and his commitment to bringing forth thought-provoking art that
+                    sparks dialogue and connection.
+                  </p>
+                  <p>
+                    Today, Okediji Femi's pieces can be found in various exhibitions and collections, standing as a
+                    testament to his passion, skill, and the rich educational background that shaped his artistic
+                    journey.
+                  </p>
                 </div>
               )}
 
@@ -84,16 +114,33 @@ export default function AboutPage() {
               >
                 <h3 className="text-xl font-semibold">Artist Statement</h3>
                 <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    expandedSection === "statement" ? "rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 transition-transform ${expandedSection === "statement" ? "rotate-180" : ""}`}
                 />
               </button>
               {expandedSection === "statement" && (
                 <div className="p-6 bg-card border border-border rounded-lg space-y-4 text-base leading-relaxed text-muted-foreground">
-                  <p>In the tactile world of my sculptures, I weave the intricate dance...</p>
-                  <p>The deliberate embedding of lace fabric textures...</p>
-                  <p>Through my sculptures, I seek to create an intimate dialogue...</p>
+                  <p>
+                    In the tactile world of my sculptures, I weave the intricate dance of my surroundings, society's
+                    unfolding narratives, and the omnipresent essence of women who grace my everyday life. Each
+                    sculpture stands as a testament to my deep immersion in my environment, translating societal
+                    happenings and personal interactions into tangible forms. The women I sculpt are both muse and
+                    message, embodying resilience, complexity, and the myriad roles they play amidst life's symphony.
+                    Each piece emerges from a deep well of observation, absorbing the natural materials, textures, and
+                    stories that unfold around me daily. My works seek to challenge, to question, and to empathize.
+                  </p>
+                  <p>
+                    The deliberate embedding of lace fabric textures and patterns into my works serves a dual purpose:
+                    it's an homage to the delicate yet enduring nature of traditions and femininity, and a reflection of
+                    how intertwined and patterned our lives are with the fabric of society. This intricate detailing
+                    offers a tactile experience, urging observers to feel, quite literally, the impressions left by
+                    societal happenings and personal encounters.
+                  </p>
+                  <p>
+                    Through my sculptures, I seek to create an intimate dialogue, inviting viewers to touch, reflect,
+                    and connect with the layered complexities of our shared human experience, all while exploring the
+                    beautiful imprints and patterns that shape our world and inner lives. Through my art, I offer not
+                    just a reflection of society, but an invitation to engage, understand, and evolve with it.
+                  </p>
                 </div>
               )}
 
@@ -104,9 +151,7 @@ export default function AboutPage() {
               >
                 <h3 className="text-xl font-semibold">Exhibitions</h3>
                 <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    expandedSection === "exhibitions" ? "rotate-180" : ""
-                  }`}
+                  className={`w-5 h-5 transition-transform ${expandedSection === "exhibitions" ? "rotate-180" : ""}`}
                 />
               </button>
               {expandedSection === "exhibitions" && (
@@ -129,7 +174,7 @@ export default function AboutPage() {
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
               {loading ? (
                 <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  Loading...
+                  Loading image...
                 </div>
               ) : artistImage?.asset ? (
                 <Image
