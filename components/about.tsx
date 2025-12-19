@@ -3,25 +3,18 @@
 import React, { useState, useEffect } from "react"
 import { ChevronDown } from "lucide-react"
 import Image from "next/image"
-import { getAboutImage } from "@/lib/getAboutImage"
 import { urlFor } from "@/lib/sanityImage"
+import client from "@/sanity/client"  // Adjust path if your client export is different
 
-interface AboutData {
-  artistImage?: any
-}
-
-async function getAboutImage(): Promise<AboutData | null> {
-  const data = await client.fetch(`
-    *[_type == "about"][0]{
-      artistImage
-    }
-  `)
-  return data || null
-}
+export default function About() {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+  const [artistImage, setArtistImage] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section)
   }
+
   const exhibitions = [
     "ICAF ART EXHIBITION (2017)",
     "GUSTO ART CHALLENGE (2017)",
@@ -38,6 +31,24 @@ async function getAboutImage(): Promise<AboutData | null> {
     "VSS FUTURE LABS 2025",
     "GENERATION 7 (Mydrim Gallery) 2025",
   ]
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await client.fetch(`
+          *[_type == "about"][0]{
+            artistImage
+          }
+        `)
+        setArtistImage(data?.artistImage)
+      } catch (err) {
+        console.error("Failed to fetch about image:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
 
   return (
     <section className="py-20 px-6 md:py-32">
@@ -160,7 +171,11 @@ async function getAboutImage(): Promise<AboutData | null> {
           {/* Artist Image & Stats */}
           <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
-              {artistImage?.asset ? (
+              {loading ? (
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                  Loading image...
+                </div>
+              ) : artistImage?.asset ? (
                 <Image
                   src={urlFor(artistImage).width(800).height(800).url()!}
                   alt="Okediji Femi in Studio"
@@ -175,7 +190,6 @@ async function getAboutImage(): Promise<AboutData | null> {
                 </div>
               )}
             </div>
-
 
             <div className="grid grid-cols-2 gap-4">
               <div className="p-6 bg-card border border-border rounded-lg">
