@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { ChevronDown } from "lucide-react"
 import Image from "next/image"
-import { urlFor } from "@/lib/sanityImage"
+import { client } from "@/lib/getHomeHero"
 
 export default function About() {
   const [expandedSection, setExpandedSection] = useState<string | null>(null)
