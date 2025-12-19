@@ -1,5 +1,4 @@
-export const dynamic = "force-dynamic"
-
+export const revalidate = 60
 
 import Image from "next/image"
 import { urlFor } from "@/lib/sanityImage"
