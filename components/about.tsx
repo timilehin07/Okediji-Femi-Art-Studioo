@@ -1,5 +1,7 @@
 "use client"
 
+import React, { useState, useEffect } from "react"
+import { ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { urlFor } from "@/lib/sanityImage"
 import { client } from "@/lib/sanityClient"
