@@ -172,21 +172,20 @@ export default function About() {
           {/* Right Column: Image + Stats */}
           <div className="space-y-6">
             <div className="aspect-square bg-accent/10 rounded-lg overflow-hidden">
-              {artistImage?.asset ? (
-                <Image
-                  src={urlFor(artistImage).width(800).height(800).url()!}
-                  alt="Okediji Femi in Studio"
-                  width={800}
-                  height={800}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                  No image found
-                </div>
-              )}
-            </div>
+        {artistImage?.asset ? (
+          <Image
+            src={urlFor(artistImage).width(800).height(800).url()}
+            alt="Okediji Femi in Studio"
+            width={800}
+            height={800}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+            No image found
+          </div>
+        )}
+      </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="p-6 bg-card border border-border rounded-lg">
