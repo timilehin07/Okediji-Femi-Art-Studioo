@@ -86,7 +86,9 @@ export default function Portfolio({ works }: PortfolioProps) {
             return (
               <div
                 key={work._id}
-                ref={(el) => (itemRefs.current[index] = el)}
+                ref={(el: HTMLDivElement | null) => {
+                  itemRefs.current[index] = el // ✅ TypeScript-safe ref
+                }}
                 className={`group cursor-pointer relative transition-smooth ${
                   visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
                 }`}
