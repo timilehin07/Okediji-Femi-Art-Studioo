@@ -1,14 +1,14 @@
 import { client } from "./sanityClient"
 
-interface Work {
+export interface Work {
   _id: string
   title: string
-  year: number
-  material: string
+  year?: string
+  material?: string
   price?: number
   status: "available" | "sold"
   description?: string
-  image?: any
+  images: any[]
 }
 
 export async function getWorks(): Promise<Work[]> {
@@ -22,10 +22,13 @@ export async function getWorks(): Promise<Work[]> {
       price,
       status,
       description,
-      image
+      images
     }
     `,
     {},
-    { cache: "no-store" }
+    {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    }
   )
 }
