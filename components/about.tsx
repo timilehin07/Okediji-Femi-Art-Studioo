@@ -1,32 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Image from "next/image"
 import { urlFor } from "@/lib/sanityImage"
-import { client } from "@/lib/sanityClient"
 
-interface AboutData {
+interface AboutProps {
   artistImage?: any
 }
 
-export default function About() {
-  const [aboutData, setAboutData] = useState<AboutData | null>(null)
-
-  useEffect(() => {
-    async function fetchAbout() {
-      const data = await client.fetch(`
-        *[_type == "about"][0]{
-          artistImage
-        }
-      `)
-      setAboutData(data)
-    }
-
-    fetchAbout()
-  }, [])
-
-  const artistImage = aboutData?.artistImage
-
+export default function About({ artistImage }: AboutProps) {
   const exhibitions = [
     "ICAF ART EXHIBITION (2017)",
     "GUSTO ART CHALLENGE (2017)",
@@ -43,7 +24,7 @@ export default function About() {
     "VSS FUTURE LABS 2025",
     "GENERATION 7 (Mydrim Gallery) 2025",
   ]
-
+  
   return (
     <section className="py-20 px-6 md:py-32">
       <div className="max-w-7xl mx-auto">
