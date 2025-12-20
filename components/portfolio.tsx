@@ -18,6 +18,9 @@ interface PortfolioProps {
   works: Work[]
 }
 
+// Map indices to labels (you can expand if you want more)
+const viewLabels = ["Front View", "Back View", "Left Side", "Right Side"]
+
 export default function Portfolio({ works }: PortfolioProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
@@ -59,7 +62,22 @@ export default function Portfolio({ works }: PortfolioProps) {
 
   const stopSlider = (workId: string) => {
     clearInterval(intervalRefs.current[workId])
-    setActiveImage((prev) => ({ ...prev, [workId]: 0 }))
+  }
+
+  /* ---------------- Manual Navigation ---------------- */
+  const goNext = (work: Work) => {
+    setActiveImage((prev) => ({
+      ...prev,
+      [work._id]: ((prev[work._id] ?? 0) + 1) % work.images.length,
+    }))
+  }
+
+  const goPrev = (work: Work) => {
+    setActiveImage((prev) => ({
+      ...prev,
+      [work._id]:
+        ((prev[work._id] ?? 0) - 1 + work.images.length) % work.images.length,
+    }))
   }
 
   /* ---------------- Render ---------------- */
@@ -86,9 +104,7 @@ export default function Portfolio({ works }: PortfolioProps) {
             return (
               <div
                 key={work._id}
-                ref={(el: HTMLDivElement | null) => {
-                  itemRefs.current[index] = el // ✅ TypeScript-safe ref
-                }}
+                ref={(el) => (itemRefs.current[index] = el)}
                 className={`group cursor-pointer relative transition-smooth ${
                   visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
                 }`}
@@ -111,7 +127,7 @@ export default function Portfolio({ works }: PortfolioProps) {
                   <div className="aspect-square bg-muted rounded-lg overflow-hidden mb-4 relative hover-lift">
                     <img
                       src={urlFor(currentImage).width(800).height(800).url()}
-                      alt={work.title}
+                      alt={`${work.title} - ${viewLabels[currentIndex] ?? "View"}`}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                     />
 
@@ -147,6 +163,35 @@ export default function Portfolio({ works }: PortfolioProps) {
                           />
                         ))}
                       </div>
+                    )}
+
+                    {/* Next / Prev Buttons */}
+                    {work.images.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            goPrev(work)
+                          }}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 rounded hover:bg-black/70 transition"
+                        >
+                          ◀
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            goNext(work)
+                          }}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 rounded hover:bg-black/70 transition"
+                        >
+                          ▶
+                        </button>
+
+                        {/* View Label */}
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black/50 text-white px-2 py-1 rounded text-xs sm:text-sm">
+                          {viewLabels[currentIndex] ?? `View ${currentIndex + 1}`}
+                        </div>
+                      </>
                     )}
                   </div>
                 )}
