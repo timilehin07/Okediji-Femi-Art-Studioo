@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { urlFor } from "@/lib/sanityImage"
 import { client } from "@/lib/sanityClient"
@@ -8,17 +9,22 @@ interface AboutData {
   artistImage?: any
 }
 
-async function getAboutImage(): Promise<AboutData | null> {
-  const data = await client.fetch(`
-    *[_type == "about"][0]{
-      artistImage
-    }
-  `)
-  return data || null
-}
+export default function About() {
+  const [aboutData, setAboutData] = useState<AboutData | null>(null)
 
-export default async function AboutPage() {
-  const aboutData = await getAboutImage()
+  useEffect(() => {
+    async function fetchAbout() {
+      const data = await client.fetch(`
+        *[_type == "about"][0]{
+          artistImage
+        }
+      `)
+      setAboutData(data)
+    }
+
+    fetchAbout()
+  }, [])
+
   const artistImage = aboutData?.artistImage
 
   const exhibitions = [
