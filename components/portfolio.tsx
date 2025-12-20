@@ -18,7 +18,6 @@ interface PortfolioProps {
   works: Work[]
 }
 
-// Map indices to labels (you can expand if you want more)
 const viewLabels = ["Front View", "Back View", "Left Side", "Right Side"]
 
 export default function Portfolio({ works }: PortfolioProps) {
@@ -44,14 +43,16 @@ export default function Portfolio({ works }: PortfolioProps) {
       { threshold: 0.1 }
     )
 
-    itemRefs.current.forEach((ref) => ref && observer.observe(ref))
+    itemRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref)
+    })
+
     return () => observer.disconnect()
   }, [works])
 
   /* ---------------- Hover Auto Slider ---------------- */
   const startSlider = (work: Work) => {
     if (!work.images || work.images.length <= 1) return
-
     intervalRefs.current[work._id] = setInterval(() => {
       setActiveImage((prev) => ({
         ...prev,
@@ -64,7 +65,6 @@ export default function Portfolio({ works }: PortfolioProps) {
     clearInterval(intervalRefs.current[workId])
   }
 
-  /* ---------------- Manual Navigation ---------------- */
   const goNext = (work: Work) => {
     setActiveImage((prev) => ({
       ...prev,
@@ -80,7 +80,6 @@ export default function Portfolio({ works }: PortfolioProps) {
     }))
   }
 
-  /* ---------------- Render ---------------- */
   return (
     <section className="py-20 px-6 md:py-32 bg-card">
       <div className="max-w-7xl mx-auto">
@@ -104,7 +103,7 @@ export default function Portfolio({ works }: PortfolioProps) {
             return (
               <div
                 key={work._id}
-                ref={(el) => (itemRefs.current[index] = el)}
+                ref={(el) => { itemRefs.current[index] = el }} // ✅ error-free
                 className={`group cursor-pointer relative transition-smooth ${
                   visibleItems.has(index) ? "animate-slide-up" : "opacity-0"
                 }`}
@@ -150,15 +149,10 @@ export default function Portfolio({ works }: PortfolioProps) {
                             key={i}
                             onClick={(e) => {
                               e.stopPropagation()
-                              setActiveImage((prev) => ({
-                                ...prev,
-                                [work._id]: i,
-                              }))
+                              setActiveImage((prev) => ({ ...prev, [work._id]: i }))
                             }}
                             className={`w-2 h-2 rounded-full transition-all ${
-                              i === currentIndex
-                                ? "bg-white scale-125"
-                                : "bg-white/50"
+                              i === currentIndex ? "bg-white scale-125" : "bg-white/50"
                             }`}
                           />
                         ))}
