@@ -18,7 +18,7 @@ interface PortfolioProps {
   works: Work[]
 }
 
-const viewLabels = ["Front View", "Back View", "Left Side", "Right Side"]
+const viewLabels = ["Front View", "Left side View", "Back view", "Right Side view"]
 
 export default function Portfolio({ works }: PortfolioProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
