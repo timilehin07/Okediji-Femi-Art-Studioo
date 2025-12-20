@@ -54,7 +54,7 @@ export default function Contact() {
                 href="mailto:okedijifemi@artstudio.com"
                 className="text-foreground hover:text-accent transition-colors duration-300 hover:underline"
               >
-                okedijifemi@artstudio.com
+                Okedijiphemco@gmail.com
               </a>
             </div>
           </div>
