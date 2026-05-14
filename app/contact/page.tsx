@@ -102,7 +102,7 @@ export default function ContactPage() {
                   className="text-primary hover:underline flex items-start gap-3 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <span className="text-2xl mt-1">✉️</span>
-                  <span>okedijifemi@example.com</span>
+                  <span>Okedijiphemco@gmail.com</span>
                 </a>
               </div>
             </div>
