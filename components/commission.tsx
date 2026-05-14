@@ -201,49 +201,6 @@ export default function Commission() {
         </div>
       </div>
 
-      {/* Pricing Section */}
-      <div className="mb-20 animate-slide-up" style={{ animationDelay: "0.4s" }}>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">Investment Guide</h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Each sculpture is priced based on size, complexity, materials, and time. Contact us for a personalized quote.
-        </p>
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {pricingTiers.map((tier, index) => (
-            <div
-              key={tier.name}
-              className={`bg-card p-6 sm:p-8 rounded-lg border transition-smooth hover:shadow-xl hover:-translate-y-2 animate-slide-up ${
-                tier.featured ? "border-accent shadow-lg" : "border-border"
-              }`}
-              style={{ animationDelay: `${0.1 * index}s` }}
-            >
-              {tier.featured && (
-                <div className="bg-accent text-accent-foreground text-xs font-semibold px-3 py-1 rounded-full inline-block mb-4">
-                  Most Popular
-                </div>
-              )}
-              <h3 className="text-xl sm:text-2xl font-bold mb-2">{tier.name}</h3>
-              <p className="text-muted-foreground mb-2">{tier.size}</p>
-              <div className="text-2xl sm:text-3xl font-bold mb-6">{tier.price}</div>
-              <ul className="space-y-3 mb-6">
-                {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2 text-sm sm:text-base">
-                    <svg
-                      className="w-5 h-5 text-accent flex-shrink-0 mt-0.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Commission Form */}
       <div className="max-w-3xl mx-auto animate-slide-up" style={{ animationDelay: "0.6s" }}>
         <div className="bg-card p-6 sm:p-8 lg:p-10 rounded-lg border border-border shadow-lg">
