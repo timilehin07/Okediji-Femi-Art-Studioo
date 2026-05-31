@@ -199,10 +199,11 @@ export default function Portfolio({ works }: PortfolioProps) {
                   {work.material} {work.year && `• ${work.year}`}
                 </p>
 
-                {work.status === "available" && work.price && (
+                {work.status === "available" && work.price?.amount && (
                   <p className="text-sm sm:text-base font-semibold text-accent mb-1">
-                    ₦{work.price.toLocaleString()}
-                  </p>
+                  {work.price.currency === "USD" ? "$" : "₦"}
+                  {work.price.amount.toLocaleString()}
+                </p>
                 )}
 
                 {hoveredId === work._id && work.description && (
