@@ -8,7 +8,10 @@ interface Work {
   title: string
   year?: string
   material?: string
-  price?: number
+  price?: {
+    amount: number
+    currency: "USD" | "NGN"
+  }
   status: "available" | "sold"
   description?: string
   images: any[]
