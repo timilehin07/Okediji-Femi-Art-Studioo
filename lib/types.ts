@@ -1,0 +1,13 @@
+export interface Work {
+  _id: string
+  title: string
+  year?: string
+  material?: string
+  price?: {
+    amount: number
+    currency: "USD" | "NGN"
+  } | null
+  status: "available" | "sold"
+  description?: string
+  images: any[]
+}
