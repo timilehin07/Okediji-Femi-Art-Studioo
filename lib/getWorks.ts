@@ -1,11 +1,14 @@
 import { client } from "./sanityClient"
 
 export interface Work {
-  _id: string
+_id: string
   title: string
   year?: string
   material?: string
-  price?: number
+  price?: {
+    amount: number
+    currency: "USD" | "NGN"
+  } | null
   status: "available" | "sold"
   description?: string
   images: any[]
@@ -14,12 +17,12 @@ export interface Work {
 export async function getWorks(): Promise<Work[]> {
   return client.fetch(
     `
-    *[_type == "work"] | order(_createdAt desc) {
+*[_type == "work"] | order(_createdAt desc) {
       _id,
       title,
       year,
       material,
-      price,
+      price { amount, currency },   // ← Important: explicitly fetch subfields
       status,
       description,
       images
