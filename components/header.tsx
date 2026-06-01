@@ -22,6 +22,7 @@ export default function Header() {
     { icon: "instagram", url: "https://www.instagram.com/phemcookediji/" },
     { icon: "x", url: "https://www.twitter.com/FemiStudio" },
     { icon: "linkedin", url: "https://www.linkedin.com/in/okediji-femi-art-studio-5a47aa222" },
+    { icon: "facebook", url: "https://www.facebook.com/phemcookediji/" },
   ]
 
   const isActive = (href: string) => {
@@ -159,6 +160,11 @@ export default function Header() {
                     {social.icon === "linkedin" && (
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.81 0-9.728h3.554v1.375c.427-.659 1.191-1.595 2.897-1.595 2.117 0 3.704 1.385 3.704 4.362v5.586zM5.337 8.855c-1.144 0-1.915-.758-1.915-1.704 0-.951.77-1.704 1.956-1.704 1.187 0 1.915.753 1.948 1.704 0 .946-.761 1.704-1.989 1.704zm1.581 11.597H3.635V9.724h3.283v10.728zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
+                      </svg>
+                    )}
+                    {social.icon === "facebook" && (
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M22 12a10 10 0 1 0-11.5 9.87v-6.99H7.9V12h2.6V9.8c0-2.6 1.56-4.04 3.94-4.04 1.14 0 2.33.2 2.33.2v2.56h-1.31c-1.29 0-1.69.8-1.69 1.62V12h2.88l-.46 2.88h-2.42v6.99A10 10 0 0 0 22 12z"/>
                       </svg>
                     )}
                   </a>
