@@ -6,7 +6,7 @@ import Portfolio from "@/components/portfolio"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 import { getHomeHero } from "@/lib/getHomeHero"
-import { getWorks } from "@/lib/getWorks"  // ✅ import getWorks
+import { Works } from "@/lib/getWorks"  // ✅ import getWorks
 
 export default async function Home() {
   const heroData = await getHomeHero()
