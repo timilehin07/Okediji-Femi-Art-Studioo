@@ -1,4 +1,5 @@
 import { client } from "./sanityClient"
+import { Work } from "./types"
 
 export interface Work {
 _id: string
