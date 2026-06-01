@@ -113,74 +113,74 @@ export default function Portfolio({ works }: PortfolioProps) {
                 }}
               >
                 {/* Image */}
-                {currentImage && (
-                  <div className="aspect-square bg-muted rounded-lg overflow-hidden mb-4 relative hover-lift">
-                    <img
-                      src={urlFor(currentImage).width(800).height(800).url()}
-                      alt={`${work.title} - ${viewLabels[currentIndex] ?? "View"}`}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    />
+               {currentImage && (
+  <div className="aspect-square bg-muted rounded-lg overflow-hidden mb-4 relative hover-lift">
 
-                    {/* Status Badge */}
-                    <div
-                      className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${
-                        work.status === "sold"
-                          ? "bg-red-500/90 text-white"
-                          : "bg-green-500/90 text-white"
-                      }`}
-                    >
-                      {work.status === "sold" ? "Sold" : "Available"}
-                    </div>
+    <img
+      src={urlFor(currentImage).width(800).height(800).url()}
+      alt={`${work.title} - ${viewLabels[currentIndex] ?? "View"}`}
+      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+    />
 
-                    {/* Slider Dots */}
-                    {work.images.length > 1 && (
-                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
-                        {work.images.map((_, i) => (
-                          <button
-                            key={i}
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              setActiveImage((prev) => ({ ...prev, [work._id]: i }))
-                            }}
-                            className={`w-2 h-2 rounded-full transition-all ${
-                              i === currentIndex ? "bg-white scale-125" : "bg-white/50"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Next / Prev Buttons */}
-{work.images.length > 1 && (
-  <>
-    <button
-      onClick={(e) => {
-        e.stopPropagation()
-        goPrev(work)
-      }}
-      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md text-white p-2 rounded-2xl hover:bg-black/70 transition-all duration-300 opacity-0 group-hover:opacity-100"
-    >
-      <ChevronLeft size={20} strokeWidth={2.5} />
-    </button>
-
-    <button
-      onClick={(e) => {
-        e.stopPropagation()
-        goNext(work)
-      }}
-      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md text-white p-2 rounded-2xl hover:bg-black/70 transition-all duration-300 opacity-0 group-hover:opacity-100"
-    >
-      <ChevronRight size={20} strokeWidth={2.5} />
-    </button>
-
-    {/* View Label */}
-    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black/50 text-white px-2 py-1 rounded text-xs sm:text-sm">
-      {viewLabels[currentIndex] ?? `View ${currentIndex + 1}`}
+    {/* Status Badge */}
+    <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${
+      work.status === "sold"
+        ? "bg-red-500/90 text-white"
+        : "bg-green-500/90 text-white"
+    }`}>
+      {work.status === "sold" ? "Sold" : "Available"}
     </div>
-  </>
-)}
-                    </div>
 
+    {/* Slider Dots */}
+    {work.images.length > 1 && (
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+        {work.images.map((_, i) => (
+          <button
+            key={i}
+            onClick={(e) => {
+              e.stopPropagation()
+              setActiveImage((prev) => ({ ...prev, [work._id]: i }))
+            }}
+            className={`w-2 h-2 rounded-full transition-all ${
+              i === currentIndex ? "bg-white scale-125" : "bg-white/50"
+            }`}
+          />
+        ))}
+      </div>
+    )}
+
+    {/* Next / Prev Buttons */}
+    {work.images.length > 1 && (
+      <>
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            goPrev(work)
+          }}
+          className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md text-white p-2 rounded-2xl hover:bg-black/70 transition-all duration-300 opacity-0 group-hover:opacity-100"
+        >
+          <ChevronLeft size={20} strokeWidth={2.5} />
+        </button>
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            goNext(work)
+          }}
+          className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md text-white p-2 rounded-2xl hover:bg-black/70 transition-all duration-300 opacity-0 group-hover:opacity-100"
+        >
+          <ChevronRight size={20} strokeWidth={2.5} />
+        </button>
+
+        {/* View Label */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black/50 text-white px-2 py-1 rounded text-xs sm:text-sm">
+          {viewLabels[currentIndex] ?? `View ${currentIndex + 1}`}
+        </div>
+      </>
+    )}
+
+  </div>
+)}
                 {/* Info */}
                 <h3 className="text-lg sm:text-xl font-semibold mb-1 group-hover:text-accent transition">
                   {work.title}
