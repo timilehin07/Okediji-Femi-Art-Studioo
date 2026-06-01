@@ -222,7 +222,7 @@ export default function Commission() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent bg-background transition-smooth"
-                  placeholder="John Doe"
+                  placeholder="Your name"
                 />
               </div>
               <div>
@@ -237,7 +237,7 @@ export default function Commission() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent bg-background transition-smooth"
-                  placeholder="john@example.com"
+                  placeholder="you@example.com"
                 />
               </div>
             </div>
@@ -253,7 +253,7 @@ export default function Commission() {
                   value={formData.phone}
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent bg-background transition-smooth"
-                  placeholder="+234 812 794 2916"
+                  placeholder="+234 --- --- ----"
                 />
                 <p className="text-xs text-muted-foreground mt-1">Include your country code (e.g., +1, +44, +234)</p>
               </div>
