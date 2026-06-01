@@ -95,6 +95,17 @@ export default function Contact() {
                 </svg>
                 <span>LinkedIn</span>
               </a>
+              <a
+                href="https://www.facebook.com/phemcookediji/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-foreground hover:text-accent transition-all duration-300 hover:scale-110 inline-flex"
+              >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M22 12a10 10 0 1 0-11.5 9.87v-6.99H7.9V12h2.6V9.8c0-2.6 1.56-4.04 3.94-4.04 1.14 0 2.33.2 2.33.2v2.56h-1.31c-1.29 0-1.69.8-1.69 1.62V12h2.88l-.46 2.88h-2.42v6.99A10 10 0 0 0 22 12z"/>
+                </svg>
+                <span>Facebook</span>
+              </a>
             </div>
           </div>
         </div>
