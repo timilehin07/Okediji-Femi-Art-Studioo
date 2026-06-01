@@ -77,10 +77,10 @@
     "tailwindcss": "^4.1.9",
     "tw-animate-css": "1.3.3",
     "typescript": "^5"
-  }
+  },
   "overrides": {
-  "@sanity/visual-editing": {
-    "@sanity/client": "^6.29.1"
+    "@sanity/visual-editing": {
+      "@sanity/client": "^6.29.1"
+    }
   }
-}
 }
