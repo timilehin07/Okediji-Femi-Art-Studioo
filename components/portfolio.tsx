@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
 import { Work } from "@/lib/types"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface PortfolioProps {
   works: Work[]
@@ -150,35 +151,34 @@ export default function Portfolio({ works }: PortfolioProps) {
                     )}
 
                     {/* Next / Prev Buttons */}
-                    {work.images.length > 1 && (
-                      <>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            goPrev(work)
-                          }}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 rounded hover:bg-black/70 transition"
-                        >
-                          ◀
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            goNext(work)
-                          }}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-1 rounded hover:bg-black/70 transition"
-                        >
-                          ▶
-                        </button>
+{work.images.length > 1 && (
+  <>
+    <button
+      onClick={(e) => {
+        e.stopPropagation()
+        goPrev(work)
+      }}
+      className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md text-white p-2 rounded-full hover:bg-black/70 transition-all duration-300 opacity-0 group-hover:opacity-100"
+    >
+      <ChevronLeft size={20} strokeWidth={2.5} />
+    </button>
 
-                        {/* View Label */}
-                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black/50 text-white px-2 py-1 rounded text-xs sm:text-sm">
-                          {viewLabels[currentIndex] ?? `View ${currentIndex + 1}`}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}
+    <button
+      onClick={(e) => {
+        e.stopPropagation()
+        goNext(work)
+      }}
+      className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md text-white p-2 rounded-full hover:bg-black/70 transition-all duration-300 opacity-0 group-hover:opacity-100"
+    >
+      <ChevronRight size={20} strokeWidth={2.5} />
+    </button>
+
+    {/* View Label */}
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 bg-black/50 text-white px-2 py-1 rounded text-xs sm:text-sm">
+      {viewLabels[currentIndex] ?? `View ${currentIndex + 1}`}
+    </div>
+  </>
+)}
 
                 {/* Info */}
                 <h3 className="text-lg sm:text-xl font-semibold mb-1 group-hover:text-accent transition">
