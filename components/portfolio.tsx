@@ -178,7 +178,6 @@ export default function Portfolio({ works }: PortfolioProps) {
         </div>
       </>
     )}
-
   </div>
 )}
                 {/* Info */}
