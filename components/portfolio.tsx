@@ -179,6 +179,7 @@ export default function Portfolio({ works }: PortfolioProps) {
     </div>
   </>
 )}
+                    </div>
 
                 {/* Info */}
                 <h3 className="text-lg sm:text-xl font-semibold mb-1 group-hover:text-accent transition">
