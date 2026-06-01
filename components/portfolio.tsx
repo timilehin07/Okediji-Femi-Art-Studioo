@@ -2,20 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
-
-interface Work {
-  _id: string
-  title: string
-  year?: string
-  material?: string
-  price?: {
-    amount: number
-    currency: "USD" | "NGN"
-  }
-  status: "available" | "sold"
-  description?: string
-  images: any[]
-}
+import { Work } from "@/lib/getWorks"
 
 interface PortfolioProps {
   works: Work[]
