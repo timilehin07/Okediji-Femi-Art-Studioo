@@ -21,6 +21,8 @@ export const metadata: Metadata = {
   generator: "v0.app",
   icons: {
     icon: "/okediji-femi-logo.png",
+    shortcut: "/okediji-femi-logo.png",
+    apple: "/okediji-femi-logo.png",
   },
 }
 
