@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: "Okediji Femi Art Studio",
   description: "Contemporary sculpture and artistic expressions",
   generator: "v0.app",
+  icons: {
+    icon: "/okediji-femi-logo.png",
+  },
 }
 
 export default function RootLayout({
