@@ -115,6 +115,14 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@media (max-width: 768px) {
+  section {
+    background-attachment: scroll !important;
+    background-size: contain !important;
+    background-position: center top !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
