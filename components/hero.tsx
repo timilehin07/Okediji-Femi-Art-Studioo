@@ -31,15 +31,11 @@ export default function Hero({ heroData }: { heroData: any }) {
   return (
     <section
       className="relative min-h-screen pt-32 pb-20 px-6 flex items-center justify-center bg-cover bg-center"
-      
       style={{
-  backgroundImage: heroImage ? `url('${heroImage}')` : undefined,
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  backgroundRepeat: "no-repeat",
-  backgroundAttachment: "fixed",
-}}
-    >
+      backgroundImage: heroImage ? `url('${heroImage}')` : undefined,
+      backgroundAttachment: "fixed",
+      }}
+      >
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/50" />
 
       <div className="relative z-10 max-w-2xl mx-auto text-center">
