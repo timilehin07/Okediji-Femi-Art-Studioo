@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Playfair_Display, Lato } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import ScrollToTop from "@/components/scroll-to-top"
+// @ts-ignore: CSS module declarations not present in this project setup
 import "./globals.css"
 
 const playfairDisplay = Playfair_Display({

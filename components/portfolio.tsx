@@ -4,14 +4,17 @@ import { useState, useEffect, useRef } from "react"
 import { urlFor } from "@/lib/sanityImage"
 import { Work } from "@/lib/types"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import Link from "next/link"
 
 interface PortfolioProps {
   works: Work[]
+  showSeeMore?: boolean
+  seeMoreHref?: string
 }
 
 const viewLabels = ["Front View", "Left side View", "Back view", "Right Side view"]
 
-export default function Portfolio({ works }: PortfolioProps) {
+export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/work" }: PortfolioProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set())
   const [activeImage, setActiveImage] = useState<Record<string, number>>({})
@@ -197,14 +200,30 @@ export default function Portfolio({ works }: PortfolioProps) {
                 )}
 
                 {hoveredId === work._id && work.description && (
-                  <p className="text-xs sm:text-sm leading-relaxed text-foreground/80 mt-2 animate-fade-in">
-                    {work.description}
-                  </p>
-                )}
+  <p className="text-xs sm:text-sm leading-relaxed text-foreground/80 mt-2 animate-fade-in line-clamp-2">
+    {work.description}
+  </p>
+)}
+
+                 <Link href={`/work/${work.slug?.current}`}>
+                  <button className="mt-3 text-sm font-medium underline text-accent hover:opacity-70 transition">
+                    See more about this work/commission
+                  </button>
+               </Link>
               </div>
             )
           })}
         </div>
+        {showSeeMore && (
+          <div className="flex justify-center mt-16">
+            <Link href={seeMoreHref}>
+              <button className="px-6 py-3 bg-primary text-white rounded hover:opacity-80 transition">
+                See More Arts
+              </button>
+            </Link>
+          </div>
+        )}
+
       </div>
     </section>
   )

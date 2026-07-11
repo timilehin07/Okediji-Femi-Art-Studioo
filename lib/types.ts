@@ -10,4 +10,6 @@ export interface Work {
   status: "available" | "sold"
   description?: string
   images: any[]
+   slug?: {
+    current: string}
 }
