@@ -259,7 +259,7 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
               </button>
             </Link>
           </div>
-        )}g
+        )}
 
       </div>
     </section>
