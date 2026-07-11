@@ -20,6 +20,9 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
   const [activeImage, setActiveImage] = useState<Record<string, number>>({})
   const intervalRefs = useRef<Record<string, NodeJS.Timeout>>({})
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<
+  "all" | "abstract" | "figurative"
+>("all")
 
   /* ---------------- Intersection Observer ---------------- */
   useEffect(() => {
@@ -74,6 +77,11 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
     }))
   }
 
+  const filteredWorks =
+  selectedCategory === "all"
+    ? works
+    : works.filter((work) => work.category === selectedCategory)
+
   return (
     <section className="py-20 px-6 md:py-32 bg-card">
       <div className="max-w-7xl mx-auto">
@@ -86,11 +94,39 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
             A curated selection of recent sculptural projects exploring form,
             material, and the human experience.
           </p>
+          <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-8">
+  {[
+    { label: "All", value: "all" },
+    { label: "Abstract", value: "abstract" },
+    { label: "Figurative", value: "figurative" },
+  ].map((category) => (
+    <button
+      key={category.value}
+      onClick={() =>
+        setSelectedCategory(
+          category.value as "all" | "abstract" | "figurative"
+        )
+      }
+      className={`px-5 py-2 rounded-full border transition-all duration-300 ${
+        selectedCategory === category.value
+          ? "bg-primary text-white border-primary"
+          : "bg-transparent text-foreground hover:bg-primary/10"
+      }`}
+    >
+      {category.label}
+    </button>
+  ))}
+</div>
         </div>
 
         {/* Works Grid */}
+        {filteredWorks.length === 0 ? (
+  <div className="text-center py-20 text-muted-foreground">
+    No artworks found in this category.
+  </div>
+) : (
         <div className="grid md:grid-cols-3 gap-8">
-          {works.map((work, index) => {
+          {filteredWorks.map((work, index) => {
             const currentIndex = activeImage[work._id] ?? 0
             const currentImage = work.images?.[currentIndex]
 
@@ -199,21 +235,22 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
                 </p>
                 )}
 
-                {hoveredId === work._id && work.description && (
-  <p className="text-xs sm:text-sm leading-relaxed text-foreground/80 mt-2 animate-fade-in line-clamp-2">
-    {work.description}
-  </p>
-)}
+                {hoveredId === work._id && work.description ? (
+                  <p className="text-xs sm:text-sm leading-relaxed text-foreground/80 mt-2 animate-fade-in line-clamp-2">
+                    {work.description}
+                  </p>
+                ) : null}
 
                  <Link href={`/work/${work.slug?.current}`}>
                   <button className="mt-3 text-sm font-medium underline text-accent hover:opacity-70 transition">
-                    See more about this work/commission
+                    Read more/Buy
                   </button>
                </Link>
               </div>
             )
           })}
         </div>
+)}
         {showSeeMore && (
           <div className="flex justify-center mt-16">
             <Link href={seeMoreHref}>
@@ -222,7 +259,7 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
               </button>
             </Link>
           </div>
-        )}
+        )}g
 
       </div>
     </section>

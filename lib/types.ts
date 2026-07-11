@@ -1,6 +1,7 @@
 export interface Work {
   _id: string
   title: string
+   category: "abstract" | "figurative"
   year?: string
   material?: string
   price?: {

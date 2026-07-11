@@ -7,6 +7,7 @@ export async function getWorks(): Promise<Work[]> {
 *[_type == "work"] | order(_createdAt desc) {
       _id,
       title,
+      category,
       slug,
       year,
       material,
@@ -30,6 +31,7 @@ export async function getWorkBySlug(slug: string): Promise<Work | null> {
     *[_type == "work" && slug.current == $slug][0] {
       _id,
       title,
+      category,
       slug,
       year,
       material,
@@ -53,6 +55,7 @@ export async function getOtherWorks(excludeId: string): Promise<Work[]> {
     *[_type == "work" && _id != $excludeId] | order(_createdAt desc) [0...3] {
       _id,
       title,
+      category,
       slug,
       year,
       material,
