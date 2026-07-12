@@ -3,8 +3,22 @@
 import type React from "react"
 import { useState } from "react"
 import emailjs from "@emailjs/browser"
+import { urlFor } from "@/lib/sanityImage"
 
-export default function Commission() {
+interface CommissionProps {
+  commissionWorks: {
+    title: string
+    material: string
+    year: string
+    location?: string
+    description?: string
+    image: any
+  }[]
+}
+
+export default function Commission({
+  commissionWorks,
+}: CommissionProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +33,7 @@ export default function Commission() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState("")
   const [error, setError] = useState("")
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -366,6 +381,85 @@ export default function Commission() {
         </div>
       </div>
 
+
+       {/* Featured Commissioned Works */}
+<div
+  className="mt-32 mb-24 animateanimate-slide-up"
+  style={{ animationDelay: "0.15s" }}
+>
+  <div className="mb-16 max-w-3xl">
+  <h2 className="text-3xl md:text-4xl font-bold mb-4">
+    Featured Commissioned Works
+  </h2>
+
+  <p className="text-base md:text-lg text-muted-foreground leading-8">
+    Every commission is created in close collaboration with the client,
+    resulting in sculptures that celebrate personal stories, cultural
+    heritage, and lasting memories.
+  </p>
+</div>
+
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {commissionWorks.map((piece) => (
+  <div
+    key={piece.title}
+    className="group overflow-hidden rounded-xl border border-border bg-card"
+  >
+    <div className="overflow-hidden">
+      <img
+        src={urlFor(piece.image).width(800).url()}
+        alt={piece.title}
+        onClick={() => setSelectedImage(urlFor(piece.image).width(1800).url())}
+        className="w-full h-80 object-cover transition duration-700 group-hover:scale-105 cursor-zoom-in"
+      />
+    </div>
+
+    <div className="p-5">
+      <h3 className="text-xl font-semibold mb-2">
+        {piece.title}
+      </h3>
+
+      <p className="text-muted-foreground">
+        {piece.material} • {piece.year}
+      </p>
+
+      {piece.location && (
+        <p className="text-sm text-muted-foreground mt-1">
+          {piece.location}
+        </p>
+      )}
+
+      {piece.description && (
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+          {piece.description}
+        </p>
+      )}
+    </div>
+  </div>
+  ))}
+  </div>
+  {selectedImage && (
+  <div
+    className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-6"
+    onClick={() => setSelectedImage(null)}
+  >
+    <button
+      className="absolute top-6 right-6 text-white text-4xl"
+      onClick={() => setSelectedImage(null)}
+    >
+      ×
+    </button>
+
+    <img
+      src={selectedImage}
+      alt="Commissioned work"
+      onClick={(e) => e.stopPropagation()}
+      className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain"
+    />
+  </div>
+)}
+</div>
+
       {/* FAQ Section */}
       <div className="mt-20 animate-slide-up" style={{ animationDelay: "0.8s" }}>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
@@ -395,6 +489,8 @@ export default function Commission() {
           ))}
         </div>
       </div>
+
+      
     </section>
   )
 }

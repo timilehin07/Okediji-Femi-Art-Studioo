@@ -94,8 +94,7 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
             A curated selection of recent sculptural projects exploring form,
             material, and the human experience.
           </p>
-          <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-8">
-  {[
+        <div className="flex flex-wrap justify-start gap-2 sm:gap-3 mt-6">  {[
     { label: "All", value: "all" },
     { label: "Abstract", value: "abstract" },
     { label: "Figurative", value: "figurative" },
@@ -107,11 +106,11 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
           category.value as "all" | "abstract" | "figurative"
         )
       }
-      className={`px-5 py-2 rounded-full border transition-all duration-300 ${
-        selectedCategory === category.value
-          ? "bg-primary text-white border-primary"
-          : "bg-transparent text-foreground hover:bg-primary/10"
-      }`}
+     className={`px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium rounded-full border transition-all duration-300 ${
+      selectedCategory === category.value
+       ? "bg-primary text-white border-primary"
+       : "bg-transparent text-foreground hover:bg-primary/10"
+    }`}
     >
       {category.label}
     </button>
@@ -259,7 +258,7 @@ export default function Portfolio({ works, showSeeMore = true, seeMoreHref = "/w
               </button>
             </Link>
           </div>
-        )}g
+        )}
 
       </div>
     </section>

@@ -9,11 +9,13 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
+  const [studioOpen, setStudioOpen] = useState(false)
 
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Work", href: "/work" },
     { label: "About", href: "/about" },
+    { label: "Studio", href: "/studio" },
     { label: "Commission", href: "/commission" },
     { label: "Contact", href: "/contact" },
   ]
@@ -57,23 +59,76 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 lg:gap-12">
-          {navItems.map((item, index) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`text-xs sm:text-sm font-medium transition-smooth relative group ${
-                isActive(item.href) ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-              }`}
-              style={{
-                animation: `slide-down 0.5s ease-out forwards`,
-                animationDelay: `${index * 0.1}s`,
-                opacity: 0,
-              }}
-            >
-              {item.label}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          ))}
+         {navItems.map((item, index) =>
+  item.label === "Studio" ? (
+    <div
+      key={item.href}
+      className="relative group"
+      style={{
+        animation: `slide-down 0.5s ease-out forwards`,
+        animationDelay: `${index * 0.1}s`,
+        opacity: 0,
+      }}
+    >
+      <button
+        type="button"
+        className="text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1"
+      >
+        Studio
+
+        <svg
+          className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19 9l-7 7-7-7"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+  <div className="w-56 rounded-lg border border-border bg-white shadow-xl overflow-hidden">
+    <Link
+      href="/studio"
+      className="block px-5 py-3 hover:bg-gray-100"
+    >
+      The Studio
+    </Link>
+
+    <Link
+      href="/studio/process"
+      className="block px-5 py-3 hover:bg-gray-100"
+    >
+      The Process
+    </Link>
+  </div>
+</div>
+    </div>
+  ) : (
+    <Link
+      key={item.href}
+      href={item.href}
+      className={`text-xs sm:text-sm font-medium transition-smooth relative group ${
+        isActive(item.href)
+          ? "text-foreground"
+          : "text-muted-foreground hover:text-foreground"
+      }`}
+      style={{
+        animation: `slide-down 0.5s ease-out forwards`,
+        animationDelay: `${index * 0.1}s`,
+        opacity: 0,
+      }}
+    >
+      {item.label}
+      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+    </Link>
+  )
+)}
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
@@ -130,18 +185,46 @@ export default function Header() {
         {isOpen && (
           <nav className="absolute top-full left-0 right-0 bg-background border-b border-border md:hidden animate-slide-down">
             <div className="flex flex-col p-4 gap-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`text-left text-sm font-medium transition-smooth hover:text-accent ${
-                    isActive(item.href) ? "text-foreground" : "text-muted-foreground"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) =>
+  item.label === "Studio" ? (
+    <div key={item.href}>
+      <p className="text-left text-sm font-medium text-foreground mb-2">
+        Studio
+      </p>
+
+      <div className="ml-4 flex flex-col gap-2">
+        <Link
+          href="/studio"
+          onClick={() => setIsOpen(false)}
+          className="text-sm text-muted-foreground hover:text-accent"
+        >
+          The Studio
+        </Link>
+
+        <Link
+          href="/studio/process"
+          onClick={() => setIsOpen(false)}
+          className="text-sm text-muted-foreground hover:text-accent"
+        >
+          The Process
+        </Link>
+      </div>
+    </div>
+  ) : (
+    <Link
+      key={item.href}
+      href={item.href}
+      onClick={() => setIsOpen(false)}
+      className={`text-left text-sm font-medium transition-smooth hover:text-accent ${
+        isActive(item.href)
+          ? "text-foreground"
+          : "text-muted-foreground"
+      }`}
+    >
+      {item.label}
+    </Link>
+  )
+)}
               <div className="flex gap-4 mt-4 pt-4 border-t border-border">
                 {socialLinks.map((social) => (
                   <a
