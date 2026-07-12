@@ -218,7 +218,7 @@ export default function Commission({
   </p>
 </div>
 
-  <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-8">
+  <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
     {commissionWorks.map((piece) => (
   <div
     key={piece.title}
@@ -232,12 +232,12 @@ export default function Commission({
         className="w-full h-28 sm:h-40 md:h-72 object-cover transition duration-700 group-hover:scale-105 cursor-zoom-in"      />
     </div>
 
-    <div className="p-5">
-      <h3 className="text-xl font-semibold mb-2">
+    <div className="p-3 sm:p-5">
+      <h3 className="text-base sm:text-xl font-semibold">
         {piece.title}
       </h3>
 
-      <p className="text-muted-foreground">
+      <p className="text-xs sm:text-sm text-muted-foreground">  
         {piece.material} • {piece.year}
       </p>
 
@@ -260,7 +260,7 @@ export default function Commission({
       )}
 
       {piece.description && (
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+        <p className="text-xs leading-5 text-muted-foreground">
           {piece.description}
         </p>
       )}
