@@ -10,9 +10,12 @@ interface CommissionProps {
     title: string
     material: string
     year: string
+    commissionedFor?: string
+    featuredWith?: string
     location?: string
     description?: string
     image: any
+    gallery?: any[]
   }[]
 }
 
@@ -198,8 +201,128 @@ export default function Commission({
         </p>
       </div>
 
+       {/* Featured Commissioned Works */}
+<div
+  className="mt-32 mb-24 animateanimate-slide-up"
+  style={{ animationDelay: "0.15s" }}
+>
+  <div className="mb-16 max-w-3xl">
+  <h2 className="text-3xl md:text-4xl font-bold mb-4">
+    Featured Commissioned Works
+  </h2>
+
+  <p className="text-base md:text-lg text-muted-foreground leading-8">
+    Every commission is created in close collaboration with the client,
+    resulting in sculptures that celebrate personal stories, cultural
+    heritage, and lasting memories.
+  </p>
+</div>
+
+  <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 lg:gap-8">
+    {commissionWorks.map((piece) => (
+  <div
+    key={piece.title}
+    className="group overflow-hidden rounded-xl border border-border bg-card"
+  >
+    <div className="overflow-hidden">
+      <img
+        src={urlFor(piece.image).width(800).url()}
+        alt={piece.title}
+        onClick={() => setSelectedImage(urlFor(piece.image).width(1800).url())}
+        className="w-full h-28 sm:h-40 md:h-72 object-cover transition duration-700 group-hover:scale-105 cursor-zoom-in"      />
+    </div>
+
+    <div className="p-5">
+      <h3 className="text-xl font-semibold mb-2">
+        {piece.title}
+      </h3>
+
+      <p className="text-muted-foreground">
+        {piece.material} • {piece.year}
+      </p>
+
+      {piece.commissionedFor && (
+  <p className="mt-2 text-sm">
+    <span className="font-semibold">Commissioned for:</span>{" "}
+    {piece.commissionedFor}
+  </p>
+)}
+
+{piece.featuredWith && (
+  <p className="text-sm mt-1 text-muted-foreground">
+    Featured with {piece.featuredWith}
+  </p>
+)}
+      {piece.location && (
+        <p className="text-sm text-muted-foreground mt-1">
+          {piece.location}
+        </p>
+      )}
+
+      {piece.description && (
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+          {piece.description}
+        </p>
+      )}
+    </div>
+  </div>
+  ))}
+  </div>
+  {selectedImage && (
+  <div
+    className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-6"
+    onClick={() => setSelectedImage(null)}
+  >
+    <button
+      className="absolute top-6 right-6 text-white text-4xl"
+      onClick={() => setSelectedImage(null)}
+    >
+      ×
+    </button>
+
+    <img
+      src={selectedImage}
+      alt="Commissioned work"
+      onClick={(e) => e.stopPropagation()}
+      className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain"
+    />
+  </div>
+)}
+</div>
+
+      {/* FAQ Section */}
+      <div className="mt-20 animate-slide-up" style={{ animationDelay: "0.8s" }}>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+        <div className="max-w-3xl mx-auto space-y-6">
+          {[
+            {
+              q: "How long does a commission take?",
+              a: "Timeline varies based on size and complexity. Small pieces typically take 4-6 weeks, medium pieces 8-12 weeks, and large installations 3-6 months or more.",
+            },
+            {
+              q: "What materials do you work with?",
+              a: "I work with clay, bronze, resin, stone, wood, and mixed media. Material selection depends on your vision, location, and budget.",
+            },
+            {
+              q: "Do you ship internationally?",
+              a: "Yes, I can arrange professional international shipping and installation services for commissioned pieces.",
+            },
+            {
+              q: "What is your payment structure?",
+              a: "Typically 50% deposit to begin, 40% at completion, and 10% upon delivery and installation. Payment plans can be discussed for larger projects.",
+            },
+          ].map((faq, index) => (
+            <div key={index} className="bg-card p-6 rounded-lg border border-border">
+              <h3 className="font-semibold text-lg mb-2">{faq.q}</h3>
+              <p className="text-muted-foreground">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+
       {/* Process Section */}
-      <div className="mb-20 animate-slide-up" style={{ animationDelay: "0.2s" }}>
+      <div  className="mt-26 mb-20 animate-slide-up" style={{ animationDelay: "0.2s" }}>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12">The Commission Process</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {processSteps.map((step, index) => (
@@ -379,117 +502,7 @@ export default function Commission({
             </button>
           </form>
         </div>
-      </div>
-
-
-       {/* Featured Commissioned Works */}
-<div
-  className="mt-32 mb-24 animateanimate-slide-up"
-  style={{ animationDelay: "0.15s" }}
->
-  <div className="mb-16 max-w-3xl">
-  <h2 className="text-3xl md:text-4xl font-bold mb-4">
-    Featured Commissioned Works
-  </h2>
-
-  <p className="text-base md:text-lg text-muted-foreground leading-8">
-    Every commission is created in close collaboration with the client,
-    resulting in sculptures that celebrate personal stories, cultural
-    heritage, and lasting memories.
-  </p>
-</div>
-
-  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-    {commissionWorks.map((piece) => (
-  <div
-    key={piece.title}
-    className="group overflow-hidden rounded-xl border border-border bg-card"
-  >
-    <div className="overflow-hidden">
-      <img
-        src={urlFor(piece.image).width(800).url()}
-        alt={piece.title}
-        onClick={() => setSelectedImage(urlFor(piece.image).width(1800).url())}
-        className="w-full h-80 object-cover transition duration-700 group-hover:scale-105 cursor-zoom-in"
-      />
-    </div>
-
-    <div className="p-5">
-      <h3 className="text-xl font-semibold mb-2">
-        {piece.title}
-      </h3>
-
-      <p className="text-muted-foreground">
-        {piece.material} • {piece.year}
-      </p>
-
-      {piece.location && (
-        <p className="text-sm text-muted-foreground mt-1">
-          {piece.location}
-        </p>
-      )}
-
-      {piece.description && (
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">
-          {piece.description}
-        </p>
-      )}
-    </div>
-  </div>
-  ))}
-  </div>
-  {selectedImage && (
-  <div
-    className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-6"
-    onClick={() => setSelectedImage(null)}
-  >
-    <button
-      className="absolute top-6 right-6 text-white text-4xl"
-      onClick={() => setSelectedImage(null)}
-    >
-      ×
-    </button>
-
-    <img
-      src={selectedImage}
-      alt="Commissioned work"
-      onClick={(e) => e.stopPropagation()}
-      className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain"
-    />
-  </div>
-)}
-</div>
-
-      {/* FAQ Section */}
-      <div className="mt-20 animate-slide-up" style={{ animationDelay: "0.8s" }}>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12">Frequently Asked Questions</h2>
-        <div className="max-w-3xl mx-auto space-y-6">
-          {[
-            {
-              q: "How long does a commission take?",
-              a: "Timeline varies based on size and complexity. Small pieces typically take 4-6 weeks, medium pieces 8-12 weeks, and large installations 3-6 months or more.",
-            },
-            {
-              q: "What materials do you work with?",
-              a: "I work with clay, bronze, resin, stone, wood, and mixed media. Material selection depends on your vision, location, and budget.",
-            },
-            {
-              q: "Do you ship internationally?",
-              a: "Yes, I can arrange professional international shipping and installation services for commissioned pieces.",
-            },
-            {
-              q: "What is your payment structure?",
-              a: "Typically 50% deposit to begin, 40% at completion, and 10% upon delivery and installation. Payment plans can be discussed for larger projects.",
-            },
-          ].map((faq, index) => (
-            <div key={index} className="bg-card p-6 rounded-lg border border-border">
-              <h3 className="font-semibold text-lg mb-2">{faq.q}</h3>
-              <p className="text-muted-foreground">{faq.a}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
+      </div>    
       
     </section>
   )

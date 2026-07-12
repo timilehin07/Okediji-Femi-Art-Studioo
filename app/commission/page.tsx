@@ -6,13 +6,16 @@ import { client } from "@/lib/sanityClient"
 async function getCommissionWorks() {
   return client.fetch(`
     *[_type == "commissionWork"] | order(order asc){
-      title,
-      material,
-      year,
-      location,
-      description,
-      image
-    }
+  title,
+  material,
+  year,
+  commissionedFor,
+  featuredWith,
+  location,
+  description,
+  image,
+  gallery
+}
   `)
 }
 
