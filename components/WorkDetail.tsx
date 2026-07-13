@@ -71,7 +71,7 @@ export default function WorkDetail({ work, otherWorks }: WorkDetailProps) {
 
           {/* Thumbnails */}
           {work.images.length > 1 && (
-            <div className="flex gap-3">
+            <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-5 gap-3">
               {work.images.map((img, i) => (
                 <button
                   key={i}
