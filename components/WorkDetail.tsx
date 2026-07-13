@@ -106,9 +106,37 @@ export default function WorkDetail({ work, otherWorks }: WorkDetailProps) {
             </span>
           </div>
 
-          <p className="text-muted-foreground mb-4">
-            {work.material} {work.year && `• ${work.year}`}
-          </p>
+          <div className="mb-6 space-y-2 text-sm sm:text-base">
+  {work.material && (
+    <div>
+      <span className="font-semibold">Material:</span> {work.material}
+    </div>
+  )}
+
+  {work.dimensions && (
+    <div>
+      <span className="font-semibold">Dimensions:</span> {work.dimensions}
+    </div>
+  )}
+
+  {work.weight && (
+    <div>
+      <span className="font-semibold">Weight:</span> {work.weight}
+    </div>
+  )}
+
+  {work.editionSize && (
+    <div>
+      <span className="font-semibold">Edition Size:</span> {work.editionSize}
+    </div>
+  )}
+
+  {work.year && (
+    <div>
+      <span className="font-semibold">Year:</span> {work.year}
+    </div>
+  )}
+</div>
 
           {work.status === "available" && work.price?.amount && (
             <p className="text-2xl font-semibold text-accent mb-6">
@@ -118,9 +146,13 @@ export default function WorkDetail({ work, otherWorks }: WorkDetailProps) {
           )}
 
           {work.description && (
-            <p className="text-base leading-relaxed text-foreground/80 mb-8">
-              {work.description}
-            </p>
+            <div className="space-y-6 text-base leading-8 text-foreground/80 mb-8">
+               {work.description
+               .split("\n\n")
+               .map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+           ))}
+            </div>
           )}
 
           <Link

@@ -3,6 +3,9 @@ export interface Work {
   title: string
    category: "abstract" | "figurative"
   year?: string
+  dimensions?: string
+  weight?: string
+  editionSize?: string
   material?: string
   price?: {
     amount: number
